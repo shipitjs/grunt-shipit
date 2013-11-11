@@ -1,0 +1,7 @@
+#!/usr/bin/env node
+
+/**
+ * Load cli.
+ */
+
+require('../lib/cli');
