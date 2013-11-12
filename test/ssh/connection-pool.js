@@ -19,6 +19,14 @@ describe('SSH Connection pool', function () {
     sinon.stub(connection2, 'run').yields();
   });
 
+  describe('constructor', function () {
+    it('should be possible to create a new ConnectionPool using shorthand syntax', function () {
+      var pool = new ConnectionPool(['myserver', 'myserver2']);
+      expect(pool.connections[0].config).to.deep.equal({ user: 'deploy', host: 'myserver' });
+      expect(pool.connections[1].config).to.deep.equal({ user: 'deploy', host: 'myserver2' });
+    });
+  });
+
   describe('#run', function () {
     it('should run command on each pool', function (done) {
       pool.run('my-command', function (err) {
