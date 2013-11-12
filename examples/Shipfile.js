@@ -4,13 +4,19 @@ module.exports = function (shipit) {
    */
 
   shipit.initConfig({
-    buildDir: '/my/build/dir',
-    repositoryUrl: '/my/repo/url',
-    ignores: ['.git', 'node_modules'],
-    stages: {
-      development: 'dev.host.com',
-      staging: ['staging1.host.com', 'staging2.host.com'],
-      production: ['production1.host.com', 'production2.host.com']
+    options: {
+      buildDir: '/my/build/dir',
+      repositoryUrl: '/my/repo/url',
+      ignores: ['.git', 'node_modules']
+    },
+    development: {
+      servers: 'deploy@localhost'
+    },
+    staging: {
+      servers: ['staging1.host.com', 'staging2.host.com']
+    },
+    production: {
+      servers: ['production1.host.com', 'production2.host.com']
     }
   });
 
@@ -18,15 +24,15 @@ module.exports = function (shipit) {
    * Initialize tasks.
    */
 
-  shipit.addTask('build', function (callback) {
-    shipit.local('grunt', callback);
+  shipit.registerTask('build', 'Build project', function () {
+    shipit.local('ls', this.async());
   });
 
-  shipit.addTask('remote:install', function (callback) {
-    shipit.remote('npm install', callback);
+  shipit.registerTask('remote:install', function (callback) {
+    shipit.remote('ls', callback);
   });
 
-  shipit.addTask('remote:restart', function (callback) {
+  shipit.registerTask('remote:restart', function (callback) {
     shipit.remote('service my-app restart', callback);
   });
 
