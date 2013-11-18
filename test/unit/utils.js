@@ -1,5 +1,5 @@
 var expect = require('chai').expect,
-  utils = require('../lib/utils');
+  utils = require('../../lib/utils');
 
 describe('Utils', function () {
   describe('#prefixLines', function () {

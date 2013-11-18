@@ -1,5 +1,5 @@
 var expect = require('chai').expect,
-  remote = require('../../lib/ssh/remote');
+  remote = require('../../../lib/ssh/remote');
 
 describe('SSH remote', function () {
   describe('#parse', function () {

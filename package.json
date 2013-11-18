@@ -4,7 +4,7 @@
   "description": "Deployment tool written in JavaScript.",
   "main": "index.js",
   "scripts": {
-    "test": "mocha test/**/*"
+    "test": "mocha test/unit/**/*"
   },
   "repository": {
     "type": "git",

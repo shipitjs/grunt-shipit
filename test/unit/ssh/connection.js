@@ -2,9 +2,9 @@ var chai = require('chai'),
   events = require('events'),
   expect = chai.expect,
   sinon = require('sinon'),
-  child_process = require('child_process'),
-  remote = require('../../lib/ssh/remote'),
-  Connection = require('../../lib/ssh/connection');
+  childProcess = require('child_process'),
+  remote = require('../../../lib/ssh/remote'),
+  Connection = require('../../../lib/ssh/connection');
 
 chai.use(require('sinon-chai'));
 
@@ -37,17 +37,17 @@ describe('SSH Connection', function () {
     var connection;
 
     beforeEach(function () {
-      sinon.stub(child_process, 'spawn').returns('spawn');
+      sinon.stub(childProcess, 'spawn').returns('spawn');
       connection = new Connection('user@host');
     });
 
     afterEach(function () {
-      child_process.spawn.restore();
+      childProcess.spawn.restore();
     });
 
     it('should spawn a new ssh process', function () {
       expect(connection.spawn('my-command')).to.equal('spawn');
-      expect(child_process.spawn).to.be.calledWith('ssh', [connection.remote, 'my-command']);
+      expect(childProcess.spawn).to.be.calledWith('ssh', [connection.remote, 'my-command']);
     });
   });
 

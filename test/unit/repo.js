@@ -2,7 +2,7 @@ var chai = require('chai'),
   expect = chai.expect,
   sinon = require('sinon'),
   git = require('gift'),
-  createRepo = require('../lib/repo');
+  createRepo = require('../../lib/repo');
 
 chai.use(require('sinon-chai'));
 

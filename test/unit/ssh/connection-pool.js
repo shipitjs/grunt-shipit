@@ -1,8 +1,8 @@
 var chai = require('chai'),
   expect = chai.expect,
   sinon = require('sinon'),
-  Connection = require('../../lib/ssh/connection'),
-  ConnectionPool = require('../../lib/ssh/connection-pool');
+  Connection = require('../../../lib/ssh/connection'),
+  ConnectionPool = require('../../../lib/ssh/connection-pool');
 
 chai.use(require('sinon-chai'));
 
