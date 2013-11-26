@@ -100,7 +100,13 @@ describe('SSH Connection', function () {
     it('should not return an error if the code is 0', function (done) {
       connection.copy('/src/dir', '/dest/dir', done);
 
-      expect(childProcess.spawn).to.be.calledWith('rsync', ['-az', '/src/dir', 'user@host:/dest/dir']);
+      expect(childProcess.spawn).to.be.calledWith('rsync', [
+        '-az',
+        '-e',
+        'ssh',
+        '/src/dir',
+        'user@host:/dest/dir'
+      ]);
 
       childProcessObj.emit('close', 0);
     });
@@ -111,9 +117,33 @@ describe('SSH Connection', function () {
         done();
       });
 
-      expect(childProcess.spawn).to.be.calledWith('rsync', ['-az', '/src/dir', 'user@host:/dest/dir']);
+      expect(childProcess.spawn).to.be.calledWith('rsync', [
+        '-az',
+        '-e',
+        'ssh',
+        '/src/dir',
+        'user@host:/dest/dir'
+      ]);
 
       childProcessObj.emit('close', 2);
+    });
+
+    it('should accept "ignores" option', function (done) {
+      connection.copy('/src/dir', '/dest/dir', { ignores: ['a', 'b'] }, done);
+
+      expect(childProcess.spawn).to.be.calledWith('rsync', [
+        '--exclude',
+        'a',
+        '--exclude',
+        'b',
+        '-az',
+        '-e',
+        'ssh',
+        '/src/dir',
+        'user@host:/dest/dir'
+      ]);
+
+      childProcessObj.emit('close', 0);
     });
   });
 });
