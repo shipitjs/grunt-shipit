@@ -80,6 +80,7 @@ describe('Shipit', function () {
       shipit.initConfig({ options: { foo: 'bar' }, stage: { kung: 'foo' } });
 
       expect(shipit.config).to.be.deep.equal({
+        branch: 'master',
         foo: 'bar',
         kung: 'foo'
       });
@@ -145,6 +146,18 @@ describe('Shipit', function () {
       shipit.remote('my-command');
 
       expect(shipit.sshPool.run).to.be.calledWith('my-command');
+    });
+  });
+
+  describe('#remoteCopy', function () {
+    beforeEach(function () {
+      shipit.sshPool = { copy: sinon.stub() };
+    });
+
+    it('should run command on sshPool', function () {
+      shipit.remoteCopy('src', 'dest');
+
+      expect(shipit.sshPool.copy).to.be.calledWith('src', 'dest');
     });
   });
 });
