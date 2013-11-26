@@ -72,11 +72,46 @@ describe('SSH Connection', function () {
 
     it('should return an error if the code is not 0', function (done) {
       connection.run('my-command', function (err) {
-        expect(err).to.deep.equal(new Error('Error (exit code 2) running command my-command on host'));
+        expect(err).to.exists;
         done();
       });
 
       expect(connection.spawn).to.be.calledWith('my-command');
+
+      childProcessObj.emit('close', 2);
+    });
+  });
+
+  describe('#copy', function () {
+    var connection, childProcessObj;
+
+    beforeEach(function () {
+      connection = new Connection('user@host');
+      childProcessObj = new events.EventEmitter();
+      childProcessObj.stderr = new events.EventEmitter();
+      childProcessObj.stdout = new events.EventEmitter();
+      sinon.stub(childProcess, 'spawn').returns(childProcessObj);
+    });
+
+    afterEach(function () {
+      childProcess.spawn.restore();
+    });
+
+    it('should not return an error if the code is 0', function (done) {
+      connection.copy('/src/dir', '/dest/dir', done);
+
+      expect(childProcess.spawn).to.be.calledWith('scp', ['-r', '/src/dir', 'user@host:/dest/dir']);
+
+      childProcessObj.emit('close', 0);
+    });
+
+    it('should return an error if the code is not 0', function (done) {
+      connection.copy('/src/dir', '/dest/dir', function (err) {
+        expect(err).to.exists;
+        done();
+      });
+
+      expect(childProcess.spawn).to.be.calledWith('scp', ['-r', '/src/dir', 'user@host:/dest/dir']);
 
       childProcessObj.emit('close', 2);
     });

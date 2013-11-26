@@ -17,6 +17,8 @@ describe('SSH Connection pool', function () {
 
     sinon.stub(connection1, 'run').yields();
     sinon.stub(connection2, 'run').yields();
+    sinon.stub(connection1, 'copy').yields();
+    sinon.stub(connection2, 'copy').yields();
   });
 
   describe('constructor', function () {
@@ -28,11 +30,22 @@ describe('SSH Connection pool', function () {
   });
 
   describe('#run', function () {
-    it('should run command on each pool', function (done) {
+    it('should run command on each connection', function (done) {
       pool.run('my-command', function (err) {
         if (err) return done(err);
         expect(connection1.run).to.be.called;
         expect(connection2.run).to.be.called;
+        done();
+      });
+    });
+  });
+
+  describe('#copy', function () {
+    it('should run command on each connection', function (done) {
+      pool.copy('/src/dir', '/dest/dir', function (err) {
+        if (err) return done(err);
+        expect(connection1.copy).to.be.called;
+        expect(connection2.copy).to.be.called;
         done();
       });
     });
