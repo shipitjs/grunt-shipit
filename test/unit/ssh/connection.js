@@ -100,7 +100,7 @@ describe('SSH Connection', function () {
     it('should not return an error if the code is 0', function (done) {
       connection.copy('/src/dir', '/dest/dir', done);
 
-      expect(childProcess.spawn).to.be.calledWith('scp', ['-r', '/src/dir', 'user@host:/dest/dir']);
+      expect(childProcess.spawn).to.be.calledWith('rsync', ['-az', '/src/dir', 'user@host:/dest/dir']);
 
       childProcessObj.emit('close', 0);
     });
@@ -111,7 +111,7 @@ describe('SSH Connection', function () {
         done();
       });
 
-      expect(childProcess.spawn).to.be.calledWith('scp', ['-r', '/src/dir', 'user@host:/dest/dir']);
+      expect(childProcess.spawn).to.be.calledWith('rsync', ['-az', '/src/dir', 'user@host:/dest/dir']);
 
       childProcessObj.emit('close', 2);
     });
