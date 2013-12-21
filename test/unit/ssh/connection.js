@@ -63,16 +63,23 @@ describe('SSH Connection', function () {
     });
 
     it('should not return an error if the code is 0', function (done) {
-      connection.run('my-command', done);
+      connection.run('my-command', function (err, stdout) {
+        if (err) return done(err);
+        expect(stdout).to.equal('command stdout');
+        done();
+      });
 
       expect(connection.spawn).to.be.calledWith('my-command');
 
+      childProcessObj.stdout.emit('data', 'command ');
+      childProcessObj.stdout.emit('data', 'stdout');
       childProcessObj.emit('close', 0);
     });
 
     it('should return an error if the code is not 0', function (done) {
       connection.run('my-command', function (err) {
         expect(err).to.exists;
+        expect(err.code).to.equal(2);
         done();
       });
 
