@@ -78,7 +78,7 @@ describe('SSH Connection', function () {
 
     it('should return an error if the code is not 0', function (done) {
       connection.run('my-command', function (err) {
-        expect(err).to.exists;
+        expect(err.message).to.equal('Error (exit code 2) running command my-command on host');
         expect(err.code).to.equal(2);
         done();
       });
