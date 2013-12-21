@@ -81,6 +81,7 @@ describe('Shipit', function () {
 
       expect(shipit.config).to.be.deep.equal({
         branch: 'master',
+        keepReleases: 5,
         foo: 'bar',
         kung: 'foo'
       });
