@@ -22,6 +22,11 @@ describe('Shell', function () {
       sh.spawn('ls');
       expect(childProcess.spawn).to.be.calledWith('ls');
     });
+
+    it('should spawn a new child process with args', function () {
+      sh.spawn('ls', ['-lah']);
+      expect(childProcess.spawn).to.be.calledWith('ls', ['-lah']);
+    });
   });
 
   describe('#run', function () {
