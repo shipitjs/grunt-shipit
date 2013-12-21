@@ -44,16 +44,23 @@ describe('Shell', function () {
     });
 
     it('should not return an error if the code is 0', function (done) {
-      sh.run('my-command', done);
+      sh.run('my-command', function (err, stdout) {
+        if (err) return done(err);
+        expect(stdout).to.equal('command stdout');
+        done();
+      });
 
       expect(sh.spawn).to.be.calledWith('my-command');
 
+      childProcessObj.stdout.emit('data', 'command ');
+      childProcessObj.stdout.emit('data', 'stdout');
       childProcessObj.emit('close', 0);
     });
 
     it('should return an error if the code is not 0', function (done) {
       sh.run('my-command', function (err) {
-        expect(err).to.deep.equal(new Error('Error (exit code 2) running command my-command on host'));
+        expect(err.message).to.equal('Error (exit code 2) running command my-command locally.');
+        expect(err.code).to.equal(2);
         done();
       });
 
