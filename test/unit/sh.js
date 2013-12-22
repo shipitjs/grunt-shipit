@@ -1,10 +1,10 @@
-var childProcess = require('child_process'),
-  sinon = require('sinon'),
-  chai = require('chai'),
-  expect = chai.expect,
-  sinonChai = require('sinon-chai'),
-  sh = require('../../lib/sh'),
-  events = require('events');
+var childProcess = require('child_process');
+var sinon = require('sinon');
+var chai = require('chai');
+var expect = chai.expect;
+var sinonChai = require('sinon-chai');
+var sh = require('../../lib/sh');
+var events = require('events');
 
 chai.use(sinonChai);
 

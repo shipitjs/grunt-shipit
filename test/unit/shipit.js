@@ -1,12 +1,12 @@
-var sinon = require('sinon'),
-  chai = require('chai'),
-  expect = chai.expect,
-  sinonChai = require('sinon-chai'),
-  path = require('path'),
-  grunt = require('grunt'),
-  Shipit = require('../../lib/shipit'),
-  sh = require('../../lib/sh'),
-  ConnectionPool = require('../../lib/ssh/connection-pool');
+var sinon = require('sinon');
+var chai = require('chai');
+var expect = chai.expect;
+var sinonChai = require('sinon-chai');
+var path = require('path');
+var grunt = require('grunt');
+var Shipit = require('../../lib/shipit');
+var sh = require('../../lib/sh');
+var ConnectionPool = require('../../lib/ssh/connection-pool');
 
 chai.use(sinonChai);
 
