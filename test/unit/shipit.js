@@ -122,6 +122,22 @@ describe('Shipit', function () {
     });
   });
 
+  describe('#clearQueue', function () {
+    beforeEach(function () {
+      sinon.stub(grunt.task, 'clearQueue');
+    });
+
+    afterEach(function () {
+      grunt.task.clearQueue.restore();
+    });
+
+    it('should clear queue', function () {
+      shipit.clearQueue();
+
+      expect(grunt.task.clearQueue).to.be.called;
+    });
+  });
+
   describe('#local', function () {
     beforeEach(function () {
       sinon.stub(sh, 'run');
