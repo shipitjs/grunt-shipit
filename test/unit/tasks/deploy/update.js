@@ -34,7 +34,8 @@ describe('deploy:update task', function () {
   });
 
   it('should create release path, and do a remote copy', function (done) {
-    runTask(shipit, 'deploy:update', function () {
+    runTask(shipit, 'deploy:update', function (err) {
+      if (err) return done(err);
       expect(shipit.releaseDirname).to.equal('20141704123138');
       expect(shipit.releasesPath).to.equal('/remote/deploy/releases');
       expect(shipit.releasePath).to.equal('/remote/deploy/releases/20141704123138');

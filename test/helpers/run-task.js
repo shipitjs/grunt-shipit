@@ -3,6 +3,7 @@
  */
 
 var grunt = require('grunt');
+var once = require('lodash').once;
 
 /**
  * Expose module.
@@ -19,11 +20,11 @@ module.exports = runTask;
  */
 
 function runTask(shipit, task, cb) {
+  cb = once(cb);
+
   grunt.task.options({
     done: cb,
-    error: function (err) {
-      throw err;
-    }
+    error: cb
   });
 
   shipit.runTask(task);

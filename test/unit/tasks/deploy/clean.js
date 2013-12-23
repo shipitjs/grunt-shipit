@@ -31,7 +31,8 @@ describe('deploy:clean task', function () {
   });
 
   it('should remove old releases', function (done) {
-    runTask(shipit, 'deploy:clean', function () {
+    runTask(shipit, 'deploy:clean', function (err) {
+      if (err) return done(err);
       expect(shipit.remote).to.be.calledWith('ls -rd1 /remote/deploy/releases | tail +6 | xargs rm -rf');
       done();
     });

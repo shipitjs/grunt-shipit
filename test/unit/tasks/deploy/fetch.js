@@ -34,7 +34,8 @@ describe('deploy:fetch task', function () {
   });
 
   it('should create workspace, create repo and checkout', function (done) {
-    runTask(shipit, 'deploy:fetch', function () {
+    runTask(shipit, 'deploy:fetch', function (err) {
+      if (err) return done(err);
       expect(mkdirpMock).to.be.calledWith('/tmp/workspace');
       expect(repoMock).to.be.calledWith('/tmp/workspace', 'git://website.com/user/repo');
       expect(shipit.repository).to.exist;

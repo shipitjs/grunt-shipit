@@ -31,7 +31,8 @@ describe('deploy:publish task', function () {
   });
 
   it('should update the synonym link', function (done) {
-    runTask(shipit, 'deploy:publish', function () {
+    runTask(shipit, 'deploy:publish', function (err) {
+      if (err) return done(err);
       expect(shipit.currentPath).to.equal('/remote/deploy/current');
       expect(shipit.remote).to.be.calledWith('rm -rf /remote/deploy/current && ' +
         'ln -s /remote/deploy/releases/20141704123138 /remote/deploy/current');
