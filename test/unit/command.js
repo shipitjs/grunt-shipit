@@ -4,15 +4,15 @@ var childProcess = require('../mocks/child-process');
 var cmd = rewire('../../lib/command');
 
 describe('Command', function () {
+  beforeEach(function () {
+    cmd.__set__('childProcess', childProcess);
+  });
+
+  afterEach(function () {
+    childProcess.restore();
+  });
+
   describe('#spawn', function () {
-    beforeEach(function () {
-      cmd.__set__('childProcess', childProcess);
-    });
-
-    afterEach(function () {
-      childProcess.restore();
-    });
-
     it('should not return an error if the code is 0', function (done) {
       cmd.spawn('my-command', ['-x'], { cwd: '/root' }, function (err, stdout) {
         if (err) return done(err);

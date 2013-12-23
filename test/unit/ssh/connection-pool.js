@@ -1,10 +1,7 @@
-var chai = require('chai'),
-  expect = chai.expect,
-  sinon = require('sinon'),
-  Connection = require('../../../lib/ssh/connection'),
-  ConnectionPool = require('../../../lib/ssh/connection-pool');
-
-chai.use(require('sinon-chai'));
+var expect = require('chai').use(require('sinon-chai')).expect;
+var sinon = require('sinon');
+var Connection = require('../../../lib/ssh/connection');
+var ConnectionPool = require('../../../lib/ssh/connection-pool');
 
 describe('SSH Connection pool', function () {
   var connection1, connection2, pool;

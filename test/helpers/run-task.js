@@ -22,10 +22,10 @@ module.exports = runTask;
 function runTask(shipit, task, cb) {
   cb = once(cb);
 
+  shipit.runTask(task);
+
   grunt.task.options({
     done: cb,
     error: cb
   });
-
-  shipit.runTask(task);
 }

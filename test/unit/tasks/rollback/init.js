@@ -5,7 +5,7 @@ var initFactory = require('../../../../lib/tasks/rollback/init');
 var runTask = require('../../../helpers/run-task');
 var gruntLog = require('../../../helpers/grunt-log');
 
-describe('deploy:init task', function () {
+describe('rollback:init task', function () {
   var shipit, init;
 
   beforeEach(function () {

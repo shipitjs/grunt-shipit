@@ -1,14 +1,19 @@
-var chai = require('chai'),
-  events = require('events'),
-  expect = chai.expect,
-  sinon = require('sinon'),
-  childProcess = require('child_process'),
-  remote = require('../../../lib/ssh/remote'),
-  Connection = require('../../../lib/ssh/connection');
-
-chai.use(require('sinon-chai'));
+var rewire = require('rewire');
+var sinon = require('sinon');
+var expect = require('chai').use(require('sinon-chai')).expect;
+var cmd = require('../../mocks/command');
+var remote = require('../../../lib/ssh/remote');
+var Connection = rewire('../../../lib/ssh/connection');
 
 describe('SSH Connection', function () {
+  beforeEach(function () {
+    Connection.__set__('cmd', cmd);
+  });
+
+  afterEach(function () {
+    cmd.restore();
+  });
+
   describe('constructor', function () {
     beforeEach(function () {
       sinon.stub(remote, 'format').returns('user@host');
@@ -33,112 +38,57 @@ describe('SSH Connection', function () {
     });
   });
 
-  describe('#spawn', function () {
+  describe('#run', function () {
     var connection;
 
     beforeEach(function () {
-      sinon.stub(childProcess, 'spawn').returns('spawn');
       connection = new Connection('user@host');
     });
 
-    afterEach(function () {
-      childProcess.spawn.restore();
+    it('should call cmd.spawn', function (done) {
+      connection.run('my-command', ['-x'], { cwd: '/root' }, done);
+
+      expect(cmd.spawn).to.be.calledWith(
+        'ssh',
+        ['my-command', '-x'],
+        { cwd: '/root', logPrefix: '@host ' }
+      );
     });
 
-    it('should spawn a new ssh process', function () {
-      expect(connection.spawn('my-command')).to.equal('spawn');
-      expect(childProcess.spawn).to.be.calledWith('ssh', ['-tt', connection.remote, 'my-command']);
-    });
-  });
+    it('should handle sudo', function (done) {
+      connection.run('sudo my-command', ['-x'], { cwd: '/root' }, done);
 
-  describe('#run', function () {
-    var connection, childProcessObj;
-
-    beforeEach(function () {
-      connection = new Connection('user@host');
-      childProcessObj = new events.EventEmitter();
-      childProcessObj.stderr = new events.EventEmitter();
-      childProcessObj.stdout = new events.EventEmitter();
-      sinon.stub(connection, 'spawn').returns(childProcessObj);
-    });
-
-    it('should not return an error if the code is 0', function (done) {
-      connection.run('my-command', function (err, stdout) {
-        if (err) return done(err);
-        expect(stdout).to.equal('command stdout');
-        done();
-      });
-
-      expect(connection.spawn).to.be.calledWith('my-command');
-
-      childProcessObj.stdout.emit('data', 'command ');
-      childProcessObj.stdout.emit('data', 'stdout');
-      childProcessObj.emit('close', 0);
-    });
-
-    it('should return an error if the code is not 0', function (done) {
-      connection.run('my-command', function (err) {
-        expect(err.message).to.equal('Error (exit code 2) running command my-command on host');
-        expect(err.code).to.equal(2);
-        done();
-      });
-
-      expect(connection.spawn).to.be.calledWith('my-command');
-
-      childProcessObj.emit('close', 2);
+      expect(cmd.spawn).to.be.calledWith(
+        'ssh',
+        ['-tt', 'sudo my-command', '-x'],
+        { cwd: '/root', logPrefix: '@host ' }
+      );
     });
   });
 
   describe('#copy', function () {
-    var connection, childProcessObj;
+    var connection;
 
     beforeEach(function () {
       connection = new Connection('user@host');
-      childProcessObj = new events.EventEmitter();
-      childProcessObj.stderr = new events.EventEmitter();
-      childProcessObj.stdout = new events.EventEmitter();
-      sinon.stub(childProcess, 'spawn').returns(childProcessObj);
     });
 
-    afterEach(function () {
-      childProcess.spawn.restore();
-    });
-
-    it('should not return an error if the code is 0', function (done) {
+    it('should call cmd.spawn', function (done) {
       connection.copy('/src/dir', '/dest/dir', done);
 
-      expect(childProcess.spawn).to.be.calledWith('rsync', [
+      expect(cmd.spawn).to.be.calledWith('rsync', [
         '-az',
         '-e',
         'ssh',
         '/src/dir',
         'user@host:/dest/dir'
       ]);
-
-      childProcessObj.emit('close', 0);
-    });
-
-    it('should return an error if the code is not 0', function (done) {
-      connection.copy('/src/dir', '/dest/dir', function (err) {
-        expect(err).to.exists;
-        done();
-      });
-
-      expect(childProcess.spawn).to.be.calledWith('rsync', [
-        '-az',
-        '-e',
-        'ssh',
-        '/src/dir',
-        'user@host:/dest/dir'
-      ]);
-
-      childProcessObj.emit('close', 2);
     });
 
     it('should accept "ignores" option', function (done) {
       connection.copy('/src/dir', '/dest/dir', { ignores: ['a', 'b'] }, done);
 
-      expect(childProcess.spawn).to.be.calledWith('rsync', [
+      expect(cmd.spawn).to.be.calledWith('rsync', [
         '--exclude',
         'a',
         '--exclude',
@@ -149,8 +99,6 @@ describe('SSH Connection', function () {
         '/src/dir',
         'user@host:/dest/dir'
       ]);
-
-      childProcessObj.emit('close', 0);
     });
   });
 });
