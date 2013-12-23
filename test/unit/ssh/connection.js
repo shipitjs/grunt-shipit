@@ -47,7 +47,7 @@ describe('SSH Connection', function () {
 
     it('should spawn a new ssh process', function () {
       expect(connection.spawn('my-command')).to.equal('spawn');
-      expect(childProcess.spawn).to.be.calledWith('ssh', [connection.remote, 'my-command']);
+      expect(childProcess.spawn).to.be.calledWith('ssh', ['-tt', connection.remote, 'my-command']);
     });
   });
 
