@@ -17,6 +17,8 @@ shipit <stage> <tasks ...>
 ## Workflow tasks
 
 - deploy
+  - deploy:init
+    - Emit event "deploy".
   - deploy:fetch
     - Create workspace.
     - Fetch repository.
