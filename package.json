@@ -1,6 +1,6 @@
 {
   "name": "shipit",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Deployment tool written in JavaScript.",
   "main": "index.js",
   "scripts": {
