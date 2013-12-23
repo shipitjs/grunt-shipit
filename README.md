@@ -5,7 +5,7 @@ Deployment tool written in JavaScript.
 ## Install
 
 ```sh
-npm install -g node-shipit
+npm install -g shipit
 ```
 
 ## Usage

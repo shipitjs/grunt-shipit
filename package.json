@@ -1,5 +1,5 @@
 {
-  "name": "node-shipit",
+  "name": "shipit",
   "version": "0.0.0",
   "description": "Deployment tool written in JavaScript.",
   "main": "index.js",
