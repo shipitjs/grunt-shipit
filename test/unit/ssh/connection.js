@@ -50,7 +50,7 @@ describe('SSH Connection', function () {
 
       expect(cmd.spawn).to.be.calledWith(
         'ssh',
-        ['my-command', '-x'],
+        ['user@host', 'my-command', '-x'],
         { cwd: '/root', logPrefix: '@host ' }
       );
     });
@@ -60,7 +60,7 @@ describe('SSH Connection', function () {
 
       expect(cmd.spawn).to.be.calledWith(
         'ssh',
-        ['-tt', 'sudo my-command', '-x'],
+        ['-tt', 'user@host', 'sudo my-command', '-x'],
         { cwd: '/root', logPrefix: '@host ' }
       );
     });
