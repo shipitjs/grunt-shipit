@@ -42,3 +42,11 @@ shipit <stage> <tasks ...>
   - deploy:clean
     - Remove old releases.
     - Emit event "cleaned".
+
+## Shipfile
+
+You must create a Shipfile.js at the root of your project to define your tasks and your configuration. [See a detailled example of a Shipfile](https://github.com/neoziro/shipit/blob/master/examples/Shipfile.js).
+
+## License
+
+MIT
