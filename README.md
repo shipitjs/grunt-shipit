@@ -1,4 +1,4 @@
-# shipit
+# shipit [![Build Status](https://travis-ci.org/neoziro/shipit.png?branch=master)](https://travis-ci.org/neoziro/shipit)
 
 Deployment tool written in JavaScript.
 
