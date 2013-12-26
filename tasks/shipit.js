@@ -2,6 +2,7 @@
  * Module dependencies.
  */
 
+var path = require('path');
 var Shipit = require('../lib/shipit');
 
 /**
@@ -20,8 +21,8 @@ function shipitTask(grunt) {
   // Init shipit
   grunt.shipit = new Shipit();
 
-  grunt.loadTasks('tasks/deploy');
-  grunt.loadTasks('tasks/rollback');
+  grunt.loadTasks(path.join(__dirname, 'deploy'));
+  grunt.loadTasks(path.join(__dirname, 'rollback'));
 
   grunt.registerTask('shipit', 'Shipit Task', function (stage) {
     var config = grunt.config.get('shipit');
