@@ -7,18 +7,17 @@
   },
   "repository": {
     "type": "git",
-    "url": "git://github.com/neoziro/shipit.git"
+    "url": "git://github.com/neoziro/grunt-shipit.git"
   },
   "keywords": [
     "gruntplugin",
     "deploy",
     "capistrano"
   ],
-  "main": "index.js",
   "author": "Greg Bergé <berge.greg@gmail.com>",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/neoziro/shipit/issues"
+    "url": "https://github.com/neoziro/grunt-shipit/issues"
   },
   "dependencies": {
     "mkdirp": "~0.3.5",
