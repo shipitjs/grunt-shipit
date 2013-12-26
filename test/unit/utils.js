@@ -5,7 +5,7 @@ describe('Utils', function () {
   describe('#prefixLines', function () {
     it('should prefix lines with a string', function () {
       expect(utils.prefixLines('prefix', 'my\nmulti\nline')).to.equal(
-        'prefixmy\nprefixmulti\nprefixline'
+        'my\nprefixmulti\nprefixline'
       );
     });
   });
