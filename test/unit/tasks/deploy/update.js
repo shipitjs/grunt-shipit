@@ -39,11 +39,12 @@ describe('deploy:update task', function () {
   it('should create release path, and do a remote copy', function (done) {
     runTask('deploy:update', function (err) {
       if (err) return done(err);
-      expect(shipit.releaseDirname).to.equal(moment(1397730698075).format('YYYYDDMMHHmmss'));
+      var dirName = moment().format('YYYYDDMMHHmmss');
+      expect(shipit.releaseDirname).to.equal(dirName);
       expect(shipit.releasesPath).to.equal('/remote/deploy/releases');
-      expect(shipit.releasePath).to.equal('/remote/deploy/releases/20141704123138');
-      expect(shipit.remote).to.be.calledWith('mkdir -p /remote/deploy/releases/20141704123138');
-      expect(shipit.remoteCopy).to.be.calledWith('/tmp/workspace/', '/remote/deploy/releases/20141704123138');
+      expect(shipit.releasePath).to.equal('/remote/deploy/releases/' + dirName);
+      expect(shipit.remote).to.be.calledWith('mkdir -p /remote/deploy/releases/' + dirName);
+      expect(shipit.remoteCopy).to.be.calledWith('/tmp/workspace/', '/remote/deploy/releases/' + dirName);
       done();
     });
 
