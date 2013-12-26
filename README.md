@@ -126,7 +126,7 @@ shipit.local('ls', ['-lah'], { cwd: '/tmp/deploy/workspace' }, function (err, st
 });
 ```
 
-### shipit.remote(command, [args], [options], callback)
+#### shipit.remote(command, [args], [options], callback)
 
 Run a command remotely and streams the result.
 
@@ -138,7 +138,7 @@ shipit.remote('ls', ['-lah'], function (err, stdout) {
 });
 ```
 
-### shipit.remoteCopy(src, dest, callback)
+#### shipit.remoteCopy(src, dest, callback)
 
 Make a remote copy from a local path to a dest path.
 
@@ -186,7 +186,7 @@ Attached during `deploy:publish` and `rollback:init` task.
 
 The current symlink path : `path.join(shipit.config.deployTo, 'current')`.
 
-## Workflow tasks
+### Workflow tasks
 
 - deploy
   - deploy:init
