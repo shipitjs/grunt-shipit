@@ -1,6 +1,6 @@
 # grunt-shipit [![Build Status](https://travis-ci.org/neoziro/grunt-shipit.png?branch=master)](https://travis-ci.org/neoziro/grunt-shipit)
 
-Deployment tool written in JavaScript.
+Deploy using grunt task.
 
 ## Getting Started
 This plugin requires Grunt `~0.4.0`
