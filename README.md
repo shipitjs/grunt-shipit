@@ -51,6 +51,12 @@ Type: `String`
 
 Git URL of the project repository.
 
+#### branch
+
+Type: `String`
+
+Tag, branch or commit to deploy.
+
 #### ignores
 
 Type: `Array<String>`
