@@ -152,15 +152,15 @@ shipit.remoteCopy('/tmp/workspace', '/opt/web/myapp', function (err) {
 
 Shipit attach several variables during the deploy and the rollback process :
 
+#### shipit.config.*
+
+All options describe in the config sections are avalaible in the `shipit.config` object.
+
 #### shipit.repository
 
 Attached during `deploy:fetch` task.
 
 You can manipulate the repository using git command, the API is describe in [gift](https://github.com/sentientwaffle/gift).
-
-#### shipit.config.*
-
-All options describe in the config sections are avalaible in the `shipit.config` object.
 
 #### shipit.releaseDirname
 
