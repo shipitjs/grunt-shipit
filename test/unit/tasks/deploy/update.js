@@ -1,16 +1,18 @@
 var sinon = require('sinon');
+var grunt = require('grunt');
 var expect = require('chai').use(require('sinon-chai')).expect;
 var Shipit = require('../../../../lib/shipit');
-var updateFactory = require('../../../../lib/tasks/deploy/update');
+var updateFactory = require('../../../../tasks/deploy/update');
 var runTask = require('../../../helpers/run-task');
 var gruntLog = require('../../../helpers/grunt-log');
 
 describe('deploy:update task', function () {
-  var shipit, update, clock;
+  var shipit, clock;
 
   beforeEach(function () {
-    shipit = new Shipit('test');
-    update = updateFactory(shipit);
+    grunt.shipit = shipit = new Shipit();
+    shipit.stage = 'test';
+    updateFactory(grunt);
     clock = sinon.useFakeTimers(1397730698075);
     gruntLog.silent();
 
@@ -34,7 +36,7 @@ describe('deploy:update task', function () {
   });
 
   it('should create release path, and do a remote copy', function (done) {
-    runTask(shipit, 'deploy:update', function (err) {
+    runTask('deploy:update', function (err) {
       if (err) return done(err);
       expect(shipit.releaseDirname).to.equal('20141704123138');
       expect(shipit.releasesPath).to.equal('/remote/deploy/releases');

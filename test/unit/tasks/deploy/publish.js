@@ -1,16 +1,18 @@
 var sinon = require('sinon');
+var grunt = require('grunt');
 var expect = require('chai').use(require('sinon-chai')).expect;
 var Shipit = require('../../../../lib/shipit');
-var publishFactory = require('../../../../lib/tasks/deploy/publish');
+var publishFactory = require('../../../../tasks/deploy/publish');
 var runTask = require('../../../helpers/run-task');
 var gruntLog = require('../../../helpers/grunt-log');
 
 describe('deploy:publish task', function () {
-  var shipit, publish;
+  var shipit;
 
   beforeEach(function () {
-    shipit = new Shipit('test');
-    publish = publishFactory(shipit);
+    grunt.shipit = shipit = new Shipit();
+    shipit.stage = 'test';
+    publishFactory(grunt);
     gruntLog.silent();
 
     // Shipit config
@@ -31,7 +33,7 @@ describe('deploy:publish task', function () {
   });
 
   it('should update the synonym link', function (done) {
-    runTask(shipit, 'deploy:publish', function (err) {
+    runTask('deploy:publish', function (err) {
       if (err) return done(err);
       expect(shipit.currentPath).to.equal('/remote/deploy/current');
       expect(shipit.remote).to.be.calledWith('rm -rf /remote/deploy/current && ' +

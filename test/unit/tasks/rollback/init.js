@@ -1,16 +1,18 @@
 var sinon = require('sinon');
+var grunt = require('grunt');
 var expect = require('chai').use(require('sinon-chai')).expect;
 var Shipit = require('../../../../lib/shipit');
-var initFactory = require('../../../../lib/tasks/rollback/init');
+var initFactory = require('../../../../tasks/rollback/init');
 var runTask = require('../../../helpers/run-task');
 var gruntLog = require('../../../helpers/grunt-log');
 
 describe('rollback:init task', function () {
-  var shipit, init;
+  var shipit;
 
   beforeEach(function () {
-    shipit = new Shipit('test');
-    init = initFactory(shipit);
+    grunt.shipit = shipit = new Shipit();
+    shipit.stage = 'test';
+    initFactory(grunt);
     gruntLog.silent();
 
     // Shipit config
@@ -43,7 +45,7 @@ describe('rollback:init task', function () {
       });
 
       it('should return an error', function (done) {
-        runTask(shipit, 'rollback:init', function (err) {
+        runTask('rollback:init', function (err) {
           expect(err.message).to.equal('Remote server are not synced.');
           done();
         });
@@ -63,7 +65,7 @@ describe('rollback:init task', function () {
       });
 
       it('should return an error', function (done) {
-        runTask(shipit, 'rollback:init', function (err) {
+        runTask('rollback:init', function (err) {
           expect(err.message).to.equal('Cannot find current release dirname.');
           done();
         });
@@ -92,7 +94,7 @@ describe('rollback:init task', function () {
       });
 
       it('should return an error', function (done) {
-        runTask(shipit, 'rollback:init', function (err) {
+        runTask('rollback:init', function (err) {
           expect(err.message).to.equal('Remote server are not synced.');
           done();
         });
@@ -116,7 +118,7 @@ describe('rollback:init task', function () {
       });
 
       it('should return an error', function (done) {
-        runTask(shipit, 'rollback:init', function (err) {
+        runTask('rollback:init', function (err) {
           expect(err.message).to.equal('Cannot read releases.');
           done();
         });
@@ -141,7 +143,7 @@ describe('rollback:init task', function () {
     });
 
     it('should return an error', function (done) {
-      runTask(shipit, 'rollback:init', function (err) {
+      runTask('rollback:init', function (err) {
         expect(err.message).to.equal('Cannot rollback, release not found.');
         done();
       });
@@ -157,8 +159,6 @@ describe('rollback:init task', function () {
           ]);
         if(command === 'ls -r1 /remote/deploy/releases')
           return cb(null, ['20141704123137\n20141704123136\n']);
-
-        console.log(command);
       });
     });
 
@@ -167,7 +167,7 @@ describe('rollback:init task', function () {
     });
 
     it('define path', function (done) {
-      runTask(shipit, 'rollback:init', function (err) {
+      runTask('rollback:init', function (err) {
         if (err) return done(err);
         expect(shipit.currentPath).to.equal('/remote/deploy/current');
         expect(shipit.releasesPath).to.equal('/remote/deploy/releases');

@@ -1,16 +1,18 @@
 var sinon = require('sinon');
+var grunt = require('grunt');
 var expect = require('chai').use(require('sinon-chai')).expect;
 var Shipit = require('../../../../lib/shipit');
-var cleanFactory = require('../../../../lib/tasks/deploy/clean');
+var cleanFactory = require('../../../../tasks/deploy/clean');
 var runTask = require('../../../helpers/run-task');
 var gruntLog = require('../../../helpers/grunt-log');
 
 describe('deploy:clean task', function () {
-  var shipit, clean;
+  var shipit;
 
   beforeEach(function () {
-    shipit = new Shipit('test');
-    clean = cleanFactory(shipit);
+    grunt.shipit = shipit = new Shipit();
+    shipit.stage = 'test';
+    cleanFactory(grunt);
     gruntLog.silent();
 
     // Shipit config
@@ -31,7 +33,7 @@ describe('deploy:clean task', function () {
   });
 
   it('should remove old releases', function (done) {
-    runTask(shipit, 'deploy:clean', function (err) {
+    runTask('deploy:clean', function (err) {
       if (err) return done(err);
       expect(shipit.remote).to.be.calledWith('ls -rd1 /remote/deploy/releases/* | tail -n 6 | xargs rm -rf');
       done();

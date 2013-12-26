@@ -3,7 +3,6 @@
  */
 
 var async = require('async');
-var grunt = require('grunt');
 var moment = require('moment');
 var path = require('path');
 
@@ -13,8 +12,8 @@ var path = require('path');
  * - Remote copy project.
  */
 
-module.exports = function (shipit) {
-  shipit.registerTask('deploy:update', function () {
+module.exports = function (grunt) {
+  grunt.registerTask('deploy:update', function () {
     var done = this.async();
 
     async.series([
@@ -22,7 +21,7 @@ module.exports = function (shipit) {
       remoteCopy
     ], function (err) {
       if (err) return done(err);
-      shipit.emit('updated');
+      grunt.shipit.emit('updated');
       done();
     });
 
@@ -33,12 +32,12 @@ module.exports = function (shipit) {
      */
 
     function createReleasePath(cb) {
-      shipit.releaseDirname = moment().format('YYYYDDMMHHmmss');
-      shipit.releasesPath = path.join(shipit.config.deployTo, 'releases');
-      shipit.releasePath = path.join(shipit.releasesPath, shipit.releaseDirname);
+      grunt.shipit.releaseDirname = moment().format('YYYYDDMMHHmmss');
+      grunt.shipit.releasesPath = path.join(grunt.shipit.config.deployTo, 'releases');
+      grunt.shipit.releasePath = path.join(grunt.shipit.releasesPath, grunt.shipit.releaseDirname);
 
-      grunt.log.writeln('Create release path "%s"', shipit.releasePath);
-      shipit.remote('mkdir -p ' + shipit.releasePath, function (err) {
+      grunt.log.writeln('Create release path "%s"', grunt.shipit.releasePath);
+      grunt.shipit.remote('mkdir -p ' + grunt.shipit.releasePath, function (err) {
         if (err) return cb(err);
         grunt.log.oklns('Release path created.');
         cb();
@@ -54,7 +53,7 @@ module.exports = function (shipit) {
     function remoteCopy(cb) {
       grunt.log.writeln('Copy project to remote servers.');
 
-      shipit.remoteCopy(shipit.config.workspace + '/', shipit.releasePath, function (err) {
+      grunt.shipit.remoteCopy(grunt.shipit.config.workspace + '/', grunt.shipit.releasePath, function (err) {
         if (err) return cb(err);
         grunt.log.oklns('Finished copy.');
         cb();

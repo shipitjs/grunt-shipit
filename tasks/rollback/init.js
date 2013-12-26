@@ -3,7 +3,6 @@
  */
 
 var async = require('async');
-var grunt = require('grunt');
 var path = require('path');
 
 /**
@@ -12,15 +11,15 @@ var path = require('path');
  * - Remote copy project.
  */
 
-module.exports = function (shipit) {
-  shipit.registerTask('rollback:init', function () {
+module.exports = function (grunt) {
+  grunt.registerTask('rollback:init', function () {
     var done = this.async();
 
     async.series([
       defineReleasePath
     ], function (err) {
       if (err) return done(err);
-      shipit.emit('rollback');
+      grunt.shipit.emit('rollback');
       done();
     });
 
@@ -31,8 +30,8 @@ module.exports = function (shipit) {
      */
 
     function defineReleasePath(cb) {
-      shipit.currentPath = path.join(shipit.config.deployTo, 'current');
-      shipit.releasesPath = path.join(shipit.config.deployTo, 'releases');
+      grunt.shipit.currentPath = path.join(grunt.shipit.config.deployTo, 'current');
+      grunt.shipit.releasesPath = path.join(grunt.shipit.config.deployTo, 'releases');
 
       grunt.log.writeln('Get current release dirname.');
 
@@ -57,14 +56,14 @@ module.exports = function (shipit) {
           var currentReleaseIndex = releases.indexOf(currentRelease);
           var rollbackReleaseIndex = currentReleaseIndex + 1;
 
-          shipit.releaseDirname = releases[rollbackReleaseIndex];
+          grunt.shipit.releaseDirname = releases[rollbackReleaseIndex];
 
-          grunt.log.writeln('Will rollback to %s.', shipit.releaseDirname);
+          grunt.log.writeln('Will rollback to %s.', grunt.shipit.releaseDirname);
 
-          if (! shipit.releaseDirname)
+          if (! grunt.shipit.releaseDirname)
             return cb(new Error('Cannot rollback, release not found.'));
 
-          shipit.releasePath = path.join(shipit.releasesPath, shipit.releaseDirname);
+          grunt.shipit.releasePath = path.join(grunt.shipit.releasesPath, grunt.shipit.releaseDirname);
 
           cb();
         });
@@ -77,7 +76,7 @@ module.exports = function (shipit) {
        */
 
       function getCurrentReleaseDirname(cb) {
-        shipit.remote('readlink ' + shipit.currentPath, function (err, targets) {
+        grunt.shipit.remote('readlink ' + grunt.shipit.currentPath, function (err, targets) {
           if (err) return cb(err);
 
           var releaseDirnames = targets.map(computeReleaseDirname);
@@ -113,7 +112,7 @@ module.exports = function (shipit) {
        */
 
       function getReleases(cb) {
-        shipit.remote('ls -r1 ' + shipit.releasesPath, function (err, dirs) {
+        grunt.shipit.remote('ls -r1 ' + grunt.shipit.releasesPath, function (err, dirs) {
           if (err) return cb(err);
 
           var releases = dirs.map(computeReleases);

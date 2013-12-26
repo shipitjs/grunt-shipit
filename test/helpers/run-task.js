@@ -14,18 +14,18 @@ module.exports = runTask;
 /**
  * Run task.
  *
- * @param {Shipit} shipit
  * @param {String} task
  * @param {Function} cb
  */
 
-function runTask(shipit, task, cb) {
+function runTask(task, cb) {
   cb = once(cb);
-
-  shipit.runTask(task);
 
   grunt.task.options({
     done: cb,
     error: cb
   });
+
+  grunt.task.run([task]);
+  grunt.task.start();
 }

@@ -3,7 +3,6 @@
  */
 
 var async = require('async');
-var grunt = require('grunt');
 var path = require('path');
 
 /**
@@ -11,15 +10,15 @@ var path = require('path');
  * - Update synonym link.
  */
 
-module.exports = function (shipit) {
-  shipit.registerTask('deploy:publish', function () {
+module.exports = function (grunt) {
+  grunt.registerTask('deploy:publish', function () {
     var done = this.async();
 
     async.series([
       updateSynonymLink
     ], function (err) {
       if (err) return done(err);
-      shipit.emit('published');
+      grunt.shipit.emit('published');
       done();
     });
 
@@ -30,12 +29,12 @@ module.exports = function (shipit) {
      */
 
     function updateSynonymLink(cb) {
-      grunt.log.writeln('Publishing release "%s"', shipit.releasePath);
+      grunt.log.writeln('Publishing release "%s"', grunt.shipit.releasePath);
 
-      shipit.currentPath = path.join(shipit.config.deployTo, 'current');
+      grunt.shipit.currentPath = path.join(grunt.shipit.config.deployTo, 'current');
 
-      shipit.remote('rm -rf ' + shipit.currentPath + ' && ln -s ' + shipit.releasePath +
-        ' ' + shipit.currentPath,
+      grunt.shipit.remote('rm -rf ' + grunt.shipit.currentPath + ' && ln -s ' + grunt.shipit.releasePath +
+        ' ' + grunt.shipit.currentPath,
         function (err) {
           if (err) return cb(err);
           grunt.log.oklns('Release published.');

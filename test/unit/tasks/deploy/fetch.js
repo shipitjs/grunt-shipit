@@ -1,18 +1,20 @@
 var rewire = require('rewire');
+var grunt = require('grunt');
 var expect = require('chai').use(require('sinon-chai')).expect;
 var Shipit = require('../../../../lib/shipit');
-var fetchFactory = rewire('../../../../lib/tasks/deploy/fetch');
+var fetchFactory = rewire('../../../../tasks/deploy/fetch');
 var mkdirpMock = require('../../../mocks/mkdirp');
 var repoMock = require('../../../mocks/repo');
 var runTask = require('../../../helpers/run-task');
 var gruntLog = require('../../../helpers/grunt-log');
 
 describe('deploy:fetch task', function () {
-  var shipit, fetch;
+  var shipit;
 
   beforeEach(function () {
-    shipit = new Shipit('test');
-    fetch = fetchFactory(shipit);
+    grunt.shipit = shipit = new Shipit();
+    shipit.stage = 'test';
+    fetchFactory(grunt);
     gruntLog.silent();
 
     fetchFactory.__set__('mkdirp', mkdirpMock);
@@ -34,7 +36,7 @@ describe('deploy:fetch task', function () {
   });
 
   it('should create workspace, create repo and checkout', function (done) {
-    runTask(shipit, 'deploy:fetch', function (err) {
+    runTask('deploy:fetch', function (err) {
       if (err) return done(err);
       expect(mkdirpMock).to.be.calledWith('/tmp/workspace');
       expect(repoMock).to.be.calledWith('/tmp/workspace', 'git://website.com/user/repo');

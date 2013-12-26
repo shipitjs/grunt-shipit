@@ -3,9 +3,8 @@
  */
 
 var async = require('async');
-var grunt = require('grunt');
 var mkdirp = require('mkdirp');
-var repo = require('../../repo');
+var repo = require('../../lib/repo');
 
 /**
  * Fetch task.
@@ -14,8 +13,8 @@ var repo = require('../../repo');
  * - Checkout commit-ish.
  */
 
-module.exports = function (shipit) {
-  shipit.registerTask('deploy:fetch', function () {
+module.exports = function (grunt) {
+  grunt.registerTask('deploy:fetch', function () {
     var done = this.async();
 
     async.series([
@@ -24,7 +23,7 @@ module.exports = function (shipit) {
       checkout
     ], function (err) {
       if (err) return done(err);
-      shipit.emit('fetched');
+      grunt.shipit.emit('fetched');
       done();
     });
 
@@ -35,8 +34,8 @@ module.exports = function (shipit) {
      */
 
     function createWorkspace(cb) {
-      grunt.log.writeln('Create workspace "%s"', shipit.config.workspace);
-      mkdirp(shipit.config.workspace, cb);
+      grunt.log.writeln('Create workspace "%s"', grunt.shipit.config.workspace);
+      mkdirp(grunt.shipit.config.workspace, cb);
       grunt.log.oklns('Workspace created.');
     }
 
@@ -47,11 +46,11 @@ module.exports = function (shipit) {
      */
 
     function fetch(cb) {
-      grunt.log.writeln('Fetching repository "%s"', shipit.config.repositoryUrl);
-      repo(shipit.config.workspace, shipit.config.repositoryUrl,
+      grunt.log.writeln('Fetching repository "%s"', grunt.shipit.config.repositoryUrl);
+      repo(grunt.shipit.config.workspace, grunt.shipit.config.repositoryUrl,
         function (err, repository) {
           if (err) return cb(err);
-          shipit.repository = repository;
+          grunt.shipit.repository = repository;
           grunt.log.oklns('Repository fetched.');
           cb();
         }
@@ -65,8 +64,8 @@ module.exports = function (shipit) {
      */
 
     function checkout(cb) {
-      grunt.log.writeln('Checking out commit-ish "%s"', shipit.config.branch);
-      shipit.repository.checkout(shipit.config.branch, cb);
+      grunt.log.writeln('Checking out commit-ish "%s"', grunt.shipit.config.branch);
+      grunt.shipit.repository.checkout(grunt.shipit.config.branch, cb);
       grunt.log.oklns('Checked out.');
     }
   });
