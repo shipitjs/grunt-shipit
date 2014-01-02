@@ -64,6 +64,22 @@ describe('SSH Connection', function () {
         { cwd: '/root', logPrefix: '@host ' }
       );
     });
+
+    it('should copy args', function () {
+      var args = ['-x'];
+      connection.run('my-command', args, function () {});
+      connection.run('my-command2', args, function () {});
+
+      expect(cmd.spawn).to.be.calledWith(
+        'ssh',
+        ['user@host', 'my-command', '-x']
+      );
+
+      expect(cmd.spawn).to.be.calledWith(
+        'ssh',
+        ['user@host', 'my-command2', '-x']
+      );
+    });
   });
 
   describe('#copy', function () {
