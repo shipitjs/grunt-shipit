@@ -217,7 +217,7 @@ The current symlink path : `path.join(shipit.config.deployTo, 'current')`.
     - Define release path.
     - Emit event "rollback".
   - deploy:publish
-    - Update synonym link.
+    - Update symlink.
     - Emit event "published".
   - deploy:clean
     - Remove old releases.
