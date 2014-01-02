@@ -207,7 +207,7 @@ The current symlink path : `path.join(shipit.config.deployTo, 'current')`.
     - Remote copy project.
     - Emit event "updated".
   - deploy:publish
-    - Update synonym link.
+    - Update symlink.
     - Emit event "published".
   - deploy:clean
     - Remove old releases.
