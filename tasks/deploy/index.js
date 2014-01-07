@@ -12,7 +12,6 @@ module.exports = function (grunt) {
     'deploy:init',
     'deploy:fetch',
     'deploy:update',
-    'deploy:publish',
-    'deploy:clean'
+    'deploy:publish'
   ]);
 };
