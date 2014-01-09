@@ -78,7 +78,7 @@ module.exports = function (grunt) {
 
     function sync(cb) {
       grunt.log.writeln('Sync branch "%s"', grunt.shipit.config.branch);
-      grunt.shipit.repository.sync('origin', grunt.shipit.config.branch, cb);
+      grunt.shipit.repository.sync('shipit', grunt.shipit.config.branch, cb);
       grunt.log.oklns('Repo synced.');
     }
   });
