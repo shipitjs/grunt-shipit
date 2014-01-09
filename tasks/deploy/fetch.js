@@ -20,7 +20,8 @@ module.exports = function (grunt) {
     async.series([
       createWorkspace,
       fetch,
-      checkout
+      checkout,
+      sync
     ], function (err) {
       if (err) return done(err);
       grunt.shipit.emit('fetched');
@@ -67,6 +68,18 @@ module.exports = function (grunt) {
       grunt.log.writeln('Checking out commit-ish "%s"', grunt.shipit.config.branch);
       grunt.shipit.repository.checkout(grunt.shipit.config.branch, cb);
       grunt.log.oklns('Checked out.');
+    }
+
+    /**
+     * Sync repo.
+     *
+     * @param {Function} cb
+     */
+
+    function sync(cb) {
+      grunt.log.writeln('Sync branch "%s"', grunt.shipit.config.branch);
+      grunt.shipit.repository.sync('origin', grunt.shipit.config.branch, cb);
+      grunt.log.oklns('Repo synced.');
     }
   });
 };

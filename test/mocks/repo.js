@@ -23,7 +23,8 @@ var repo;
 
 function createRepo(path, url, cb) {
   repo = {
-    checkout: sinon.stub().yields()
+    checkout: sinon.stub().yields(),
+    sync: sinon.stub().yields()
   };
 
   cb(null, repo);

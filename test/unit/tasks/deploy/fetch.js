@@ -42,6 +42,7 @@ describe('deploy:fetch task', function () {
       expect(repoMock).to.be.calledWith('/tmp/workspace', 'git://website.com/user/repo');
       expect(shipit.repository).to.exist;
       expect(repoMock.getRepo().checkout).to.be.calledWith('master');
+      expect(repoMock.getRepo().sync).to.be.calledWith('origin', 'master');
       done();
     });
   });
