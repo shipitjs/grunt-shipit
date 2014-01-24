@@ -10,6 +10,7 @@ var sinon = require('sinon');
 
 module.exports = sinon.spy(createRepo);
 module.exports.getRepo = getRepo;
+module.exports.tags = [];
 
 /**
  * Repo mock.
@@ -24,6 +25,7 @@ var repo;
 function createRepo(path, url, cb) {
   repo = {
     checkout: sinon.stub().yields(),
+    tags: sinon.stub().yields(null, module.exports.tags),
     sync: sinon.stub().yields()
   };
 

@@ -5,6 +5,7 @@
 var async = require('async');
 var mkdirp = require('mkdirp');
 var repo = require('../../lib/repo');
+var find = require('lodash').find;
 
 /**
  * Fetch task.
@@ -36,8 +37,11 @@ module.exports = function (grunt) {
 
     function createWorkspace(cb) {
       grunt.log.writeln('Create workspace "%s"', grunt.shipit.config.workspace);
-      mkdirp(grunt.shipit.config.workspace, cb);
-      grunt.log.oklns('Workspace created.');
+      mkdirp(grunt.shipit.config.workspace, function (err) {
+        if (err) return cb(err);
+        grunt.log.oklns('Workspace created.');
+        cb();
+      });
     }
 
     /**
@@ -66,8 +70,11 @@ module.exports = function (grunt) {
 
     function checkout(cb) {
       grunt.log.writeln('Checking out commit-ish "%s"', grunt.shipit.config.branch);
-      grunt.shipit.repository.checkout(grunt.shipit.config.branch, cb);
-      grunt.log.oklns('Checked out.');
+      grunt.shipit.repository.checkout(grunt.shipit.config.branch, function (err) {
+        if (err) return cb(err);
+        grunt.log.oklns('Checked out.');
+        cb();
+      });
     }
 
     /**
@@ -78,8 +85,22 @@ module.exports = function (grunt) {
 
     function sync(cb) {
       grunt.log.writeln('Sync branch "%s"', grunt.shipit.config.branch);
-      grunt.shipit.repository.sync('shipit', grunt.shipit.config.branch, cb);
-      grunt.log.oklns('Repo synced.');
+      grunt.shipit.repository.tags(function (err, tags) {
+        if (err) return cb(err);
+
+        // If it's a tag, we do nothing.
+        if (find(tags, { name: grunt.shipit.config.branch})) {
+          grunt.log.oklns('Repo synced.');
+          return cb();
+        }
+
+        // Else we must sync the branch.
+        grunt.shipit.repository.sync('shipit', grunt.shipit.config.branch, function (err) {
+          if (err) return cb(err);
+          grunt.log.oklns('Repo synced.');
+          cb();
+        });
+      });
     }
   });
 };
