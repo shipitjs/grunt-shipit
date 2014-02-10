@@ -29,9 +29,9 @@ module.exports = function (grunt) {
 
     function cleanOldReleases(cb) {
       grunt.log.writeln('Keeping "%d" last releases, cleaning others', grunt.shipit.config.keepReleases);
-      var command = '(ls -r ' + grunt.shipit.releasesPath +
-      '|head -n ' + grunt.shipit.config.keepReleases + ';ls ' + grunt.shipit.releasesPath +
-      ')|sort|uniq -u|xargs rm -rf';
+      var command = '(ls -rd ' + grunt.shipit.releasesPath +
+      '/*|head -n ' + grunt.shipit.config.keepReleases + ';ls -d ' + grunt.shipit.releasesPath +
+      '/*)|sort|uniq -u|xargs rm -rf';
       grunt.shipit.remote(command, cb);
     }
   });

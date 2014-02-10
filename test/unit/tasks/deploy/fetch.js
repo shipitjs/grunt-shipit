@@ -8,7 +8,7 @@ var mkdirpMock = require('../../../mocks/mkdirp');
 var runTask = require('../../../helpers/run-task');
 var gruntLog = require('../../../helpers/grunt-log');
 
-describe.only('deploy:fetch task', function () {
+describe('deploy:fetch task', function () {
   var shipit;
 
   beforeEach(function () {
