@@ -35,7 +35,7 @@ describe('deploy:clean task', function () {
   it('should remove old releases', function (done) {
     runTask('deploy:clean', function (err) {
       if (err) return done(err);
-      expect(shipit.remote).to.be.calledWith('(ls -r /remote/deploy/releases|head -n 5;ls)|sort|uniq -u|' +
+      expect(shipit.remote).to.be.calledWith('(ls -r /remote/deploy/releases|head -n 5;ls ' + grunt.shipit.releasesPath + ')|sort|uniq -u|' +
         'xargs rm -rf');
       done();
     });
