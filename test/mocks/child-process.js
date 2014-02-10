@@ -15,11 +15,12 @@ var childProcess = module.exports = {};
  * Spawn.
  */
 
-childProcess.spawn = sinon.spy(function () {
+childProcess.exec = sinon.spy(function (command, options, cb) {
   this.child = new EventEmitter();
   this.child.stderr = new EventEmitter();
   this.child.stdout = new EventEmitter();
 
+  process.nextTick(cb);
   return this.child;
 });
 
@@ -28,5 +29,5 @@ childProcess.spawn = sinon.spy(function () {
  */
 
 childProcess.restore = function () {
-  this.spawn.reset();
+  this.exec.reset();
 };

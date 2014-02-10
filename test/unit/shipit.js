@@ -1,18 +1,23 @@
 var sinon = require('sinon');
 var chai = require('chai');
 var expect = chai.expect;
+var stream = require('mock-utf8-stream');
 var sinonChai = require('sinon-chai');
 var Shipit = require('../../lib/shipit');
-var sh = require('../../lib/sh');
 var ConnectionPool = require('../../lib/ssh/connection-pool');
 
 chai.use(sinonChai);
 
 describe('Shipit', function () {
-  var shipit;
+  var shipit, stdout, stderr;
 
   beforeEach(function () {
-    shipit = new Shipit();
+    stdout = new stream.MockWritableStream();
+    stderr = new stream.MockWritableStream();
+    shipit = new Shipit({
+      stdout: stdout,
+      stderr: stderr
+    });
     shipit.stage = 'stage';
   });
 
@@ -37,7 +42,7 @@ describe('Shipit', function () {
       shipit.initSshPool();
 
       expect(shipit.sshPool).to.be.instanceOf(ConnectionPool);
-      expect(shipit.sshPool.connections[0].remote).to.equal('deploy@my-server');
+      expect(shipit.sshPool.connections[0].remote).to.deep.equal({ user: 'deploy', host: 'my-server' });
     });
   });
 
@@ -55,18 +60,17 @@ describe('Shipit', function () {
   });
 
   describe('#local', function () {
-    beforeEach(function () {
-      sinon.stub(sh, 'run');
-    });
+    it('should wrap and log to stdout', function (done) {
+      stdout.captureData();
+      var echo = shipit.local('echo "hello"', function (err) {
+        if (err) return done(err);
+        expect(stdout.capturedData).to.equal('@ hello\n');
+        done();
+      });
 
-    afterEach(function () {
-      sh.run.restore();
-    });
-
-    it('should run local command', function () {
-      shipit.local('my-command');
-
-      expect(sh.run).to.be.calledWith('my-command');
+      // Should return a child process.
+      expect(echo).to.have.property('stdout');
+      expect(echo).to.have.property('stderr');
     });
   });
 

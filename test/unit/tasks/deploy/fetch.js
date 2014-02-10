@@ -1,6 +1,5 @@
 var rewire = require('rewire');
 var grunt = require('grunt');
-var sinon = require('sinon');
 var expect = require('chai').use(require('sinon-chai')).expect;
 var Shipit = require('../../../../lib/shipit');
 var fetchFactory = rewire('../../../../tasks/deploy/fetch');

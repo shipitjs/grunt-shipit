@@ -7,8 +7,8 @@ describe('SSH Connection pool', function () {
   var connection1, connection2, pool;
 
   beforeEach(function () {
-    connection1 = new Connection('user@host1');
-    connection2 = new Connection('user@host2');
+    connection1 = new Connection({ remote: 'user@host1' });
+    connection2 = new Connection({ remote: 'user@host2' });
 
     pool = new ConnectionPool([connection1, connection2]);
 
@@ -21,8 +21,8 @@ describe('SSH Connection pool', function () {
   describe('constructor', function () {
     it('should be possible to create a new ConnectionPool using shorthand syntax', function () {
       var pool = new ConnectionPool(['myserver', 'myserver2']);
-      expect(pool.connections[0].config).to.deep.equal({ user: 'deploy', host: 'myserver' });
-      expect(pool.connections[1].config).to.deep.equal({ user: 'deploy', host: 'myserver2' });
+      expect(pool.connections[0].remote).to.deep.equal({ user: 'deploy', host: 'myserver' });
+      expect(pool.connections[1].remote).to.deep.equal({ user: 'deploy', host: 'myserver2' });
     });
   });
 

@@ -19,6 +19,7 @@ exports.restore = restore;
 function silent() {
   sinon.stub(grunt.log, 'writeln');
   sinon.stub(grunt.log, 'ok');
+  sinon.stub(grunt.log, 'header');
 }
 
 /**
@@ -28,4 +29,5 @@ function silent() {
 function restore() {
   grunt.log.writeln.restore();
   grunt.log.ok.restore();
+  grunt.log.header.restore();
 }

@@ -122,24 +122,24 @@ grunt.shipit.on('fetched', function () {
 
 ### Methods
 
-#### shipit.local(command, [args], [options], callback)
+#### shipit.local(command, [options], callback)
 
 Run a command locally and streams the result.
 
 ```js
-shipit.local('ls', ['-lah'], { cwd: '/tmp/deploy/workspace' }, function (err, stdout) {
+shipit.local('ls -lah', { cwd: '/tmp/deploy/workspace' }, function (err, stdout) {
   // ...
 });
 ```
 
-#### shipit.remote(command, [args], [options], callback)
+#### shipit.remote(command, [options], callback)
 
 Run a command remotely and streams the result.
 
 If you want to run a `sudo` command, the ssh connection will use the TTY mode automatically.
 
 ```js
-shipit.remote('ls', ['-lah'], function (err, stdout) {
+shipit.remote('ls -lah', function (err, stdout) {
   // ...
 });
 ```

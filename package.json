@@ -21,10 +21,11 @@
   },
   "dependencies": {
     "mkdirp": "~0.3.5",
-    "async": "~0.2.9",
-    "lodash": "~2.2.1",
+    "async": "~0.2.10",
+    "lodash": "~2.4.1",
     "gift": "~0.1.1",
-    "moment": "~2.4.0"
+    "moment": "~2.5.1",
+    "stream-line-wrapper": "~0.1.0"
   },
   "peerDependencies": {
     "grunt": "~0.4.0"
@@ -35,6 +36,7 @@
     "sinon": "~1.7.3",
     "sinon-chai": "~2.4.0",
     "rewire": "~2.0.0",
-    "grunt": "~0.4.0"
+    "grunt": "~0.4.0",
+    "mock-utf8-stream": "~0.1.0"
   }
 }
