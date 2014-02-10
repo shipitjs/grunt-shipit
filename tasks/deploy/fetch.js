@@ -4,8 +4,6 @@
 
 var async = require('async');
 var mkdirp = require('mkdirp');
-var repo = require('../../lib/repo');
-var find = require('lodash').find;
 
 /**
  * Fetch task.
@@ -20,9 +18,11 @@ module.exports = function (grunt) {
 
     async.series([
       createWorkspace,
+      initRepository,
+      addRemote,
       fetch,
       checkout,
-      sync
+      merge
     ], function (err) {
       if (err) return done(err);
       grunt.shipit.emit('fetched');
@@ -45,6 +45,52 @@ module.exports = function (grunt) {
     }
 
     /**
+     * Initialize repository.
+     *
+     * @param {Function} cb
+     */
+
+    function initRepository(cb) {
+      grunt.log.writeln('Initialize local repository in "%s"', grunt.shipit.config.workspace);
+      grunt.shipit.local('git init', { cwd: grunt.shipit.config.workspace }, function (err) {
+        if (err) return cb(err);
+        grunt.log.oklns('Repository initialized.');
+        cb();
+      });
+    }
+
+    /**
+     * Add remote.
+     *
+     * @param {Function} cb
+     */
+
+    function addRemote(cb) {
+      grunt.log.writeln('List local remotes.');
+
+      // List remotes.
+      grunt.shipit.local('git remote', { cwd: grunt.shipit.config.workspace }, function (err, stdout) {
+        if (err) return cb(err);
+        var remotes = stdout ? stdout.split(/\s/) : [];
+        var method = remotes.indexOf('shipit') !== -1 ? 'set-url' : 'add';
+
+        grunt.log.writeln('Update remote "%s" to local repository "%s"',
+        grunt.shipit.config.repositoryUrl, grunt.shipit.config.workspace);
+
+        // Update remote.
+        grunt.shipit.local(
+          'git remote ' + method + ' shipit ' + grunt.shipit.config.repositoryUrl,
+          { cwd: grunt.shipit.config.workspace },
+          function (err) {
+            if (err) return cb(err);
+            grunt.log.oklns('Remote updated.');
+            cb();
+          }
+        );
+      });
+    }
+
+    /**
      * Fetch repository.
      *
      * @param {Function} cb
@@ -52,10 +98,11 @@ module.exports = function (grunt) {
 
     function fetch(cb) {
       grunt.log.writeln('Fetching repository "%s"', grunt.shipit.config.repositoryUrl);
-      repo(grunt.shipit.config.workspace, grunt.shipit.config.repositoryUrl,
-        function (err, repository) {
+      grunt.shipit.local(
+        'git fetch shipit -p',
+        { cwd: grunt.shipit.config.workspace },
+        function (err) {
           if (err) return cb(err);
-          grunt.shipit.repository = repository;
           grunt.log.oklns('Repository fetched.');
           cb();
         }
@@ -70,37 +117,52 @@ module.exports = function (grunt) {
 
     function checkout(cb) {
       grunt.log.writeln('Checking out commit-ish "%s"', grunt.shipit.config.branch);
-      grunt.shipit.repository.checkout(grunt.shipit.config.branch, function (err) {
-        if (err) return cb(err);
-        grunt.log.oklns('Checked out.');
-        cb();
-      });
+      grunt.shipit.local(
+        'git checkout ' + grunt.shipit.config.branch,
+        { cwd: grunt.shipit.config.workspace },
+        function (err) {
+          if (err) return cb(err);
+          grunt.log.oklns('Checked out.');
+          cb();
+        }
+      );
     }
 
     /**
-     * Sync repo.
+     * Merge branch.
      *
      * @param {Function} cb
      */
 
-    function sync(cb) {
-      grunt.log.writeln('Sync branch "%s"', grunt.shipit.config.branch);
-      grunt.shipit.repository.tags(function (err, tags) {
-        if (err) return cb(err);
+    function merge(cb) {
+      grunt.log.writeln('Testing if commit-ish is a branch.');
 
-        // If it's a tag, we do nothing.
-        if (find(tags, { name: grunt.shipit.config.branch})) {
-          grunt.log.oklns('Repo synced.');
-          return cb();
-        }
-
-        // Else we must sync the branch.
-        grunt.shipit.repository.sync('shipit', grunt.shipit.config.branch, function (err) {
+      // Test if commit-ish is a branch.
+      grunt.shipit.local(
+        'git branch --list ' + grunt.shipit.config.branch,
+        { cwd: grunt.shipit.config.workspace },
+        function (err, stdout) {
           if (err) return cb(err);
-          grunt.log.oklns('Repo synced.');
-          cb();
-        });
-      });
+          var isBranch = !! stdout;
+          if (! isBranch) {
+            grunt.log.oklns('No branch, no merge.');
+            return cb();
+          }
+
+          grunt.log.writeln('Commit-ish is a branch, merging...');
+
+          // Merge branch.
+          grunt.shipit.local(
+            'git merge shipit/' + grunt.shipit.config.branch,
+            { cwd: grunt.shipit.config.workspace },
+            function (err) {
+              if (err) return cb(err);
+              grunt.log.oklns('Branch merged.');
+              cb();
+            }
+          );
+        }
+      );
     }
   });
 };

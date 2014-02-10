@@ -1,14 +1,14 @@
 var rewire = require('rewire');
 var grunt = require('grunt');
+var sinon = require('sinon');
 var expect = require('chai').use(require('sinon-chai')).expect;
 var Shipit = require('../../../../lib/shipit');
 var fetchFactory = rewire('../../../../tasks/deploy/fetch');
 var mkdirpMock = require('../../../mocks/mkdirp');
-var repoMock = require('../../../mocks/repo');
 var runTask = require('../../../helpers/run-task');
 var gruntLog = require('../../../helpers/grunt-log');
 
-describe('deploy:fetch task', function () {
+describe.only('deploy:fetch task', function () {
   var shipit;
 
   beforeEach(function () {
@@ -18,7 +18,6 @@ describe('deploy:fetch task', function () {
     gruntLog.silent();
 
     fetchFactory.__set__('mkdirp', mkdirpMock);
-    fetchFactory.__set__('repo', repoMock);
 
     // Shipit config
     shipit.initConfig({
@@ -27,39 +26,30 @@ describe('deploy:fetch task', function () {
         repositoryUrl: 'git://website.com/user/repo'
       }
     });
+
+    sinon.stub(grunt.shipit, 'local').yields();
   });
 
   afterEach(function () {
     mkdirpMock.reset();
-    repoMock.reset();
     gruntLog.restore();
+    grunt.shipit.local.restore();
   });
 
   it('should create workspace, create repo, checkout and call sync', function (done) {
     runTask('deploy:fetch', function (err) {
       if (err) return done(err);
       expect(mkdirpMock).to.be.calledWith('/tmp/workspace');
-      expect(repoMock).to.be.calledWith('/tmp/workspace', 'git://website.com/user/repo');
-      expect(shipit.repository).to.exist;
-      expect(repoMock.getRepo().checkout).to.be.calledWith('master');
-      expect(repoMock.getRepo().sync).to.be.calledWith('shipit', 'master');
+      expect(grunt.shipit.local).to.be.calledWith('git init', { cwd: '/tmp/workspace' });
+      expect(grunt.shipit.local).to.be.calledWith('git remote', { cwd: '/tmp/workspace' });
+      expect(grunt.shipit.local).to.be.calledWith(
+        'git remote add shipit git://website.com/user/repo',
+        { cwd: '/tmp/workspace' }
+      );
+      expect(grunt.shipit.local).to.be.calledWith('git fetch shipit -p', { cwd: '/tmp/workspace' });
+      expect(grunt.shipit.local).to.be.calledWith('git checkout master', { cwd: '/tmp/workspace' });
+      expect(grunt.shipit.local).to.be.calledWith('git branch --list master', { cwd: '/tmp/workspace' });
       done();
-    });
-  });
-
-  describe('with a tag', function () {
-    it('should create workspace, create repo, checkout and not call sync', function (done) {
-      grunt.shipit.config.branch = 'v0.3.2';
-      repoMock.tags = [{ name: 'v0.3.2' }];
-      runTask('deploy:fetch', function (err) {
-        if (err) return done(err);
-        expect(mkdirpMock).to.be.calledWith('/tmp/workspace');
-        expect(repoMock).to.be.calledWith('/tmp/workspace', 'git://website.com/user/repo');
-        expect(shipit.repository).to.exist;
-        expect(repoMock.getRepo().checkout).to.be.calledWith('v0.3.2');
-        expect(repoMock.getRepo().sync).to.not.be.called;
-        done();
-      });
     });
   });
 });
