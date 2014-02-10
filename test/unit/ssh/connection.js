@@ -57,7 +57,7 @@ describe('SSH Connection', function () {
       connection.run('my-command -x', { cwd: '/root' }, done);
 
       expect(childProcess.exec).to.be.calledWith(
-        'ssh user@host my-command -x',
+        'ssh user@host "my-command -x"',
         { cwd: '/root' }
       );
     });
@@ -66,7 +66,7 @@ describe('SSH Connection', function () {
       connection.run('sudo my-command -x', { cwd: '/root' }, done);
 
       expect(childProcess.exec).to.be.calledWith(
-        'ssh -tt user@host sudo my-command -x',
+        'ssh -tt user@host "sudo my-command -x"',
         { cwd: '/root' }
       );
     });
@@ -76,11 +76,11 @@ describe('SSH Connection', function () {
       connection.run('my-command2 -x', function () {});
 
       expect(childProcess.exec).to.be.calledWith(
-        'ssh user@host my-command -x'
+        'ssh user@host "my-command -x"'
       );
 
       expect(childProcess.exec).to.be.calledWith(
-        'ssh user@host my-command2 -x'
+        'ssh user@host "my-command2 -x"'
       );
     });
   });
