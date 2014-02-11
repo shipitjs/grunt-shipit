@@ -23,6 +23,18 @@ grunt.loadNpmTasks('grunt-shipit');
 grunt shipit:<stage> <tasks ...>
 ```
 
+## Dependencies
+
+### Local
+
+- git 1.7.8+
+- rsync 3+
+- OpenSSH 5+
+
+### Remote
+
+- GNU coreutils 5+
+
 ## Shipit task
 
 ### Run task
@@ -199,8 +211,11 @@ The current symlink path : `path.join(shipit.config.deployTo, 'current')`.
     - Emit event "deploy".
   - deploy:fetch
     - Create workspace.
+    - Initialize repository.
+    - Add remote.
     - Fetch repository.
     - Checkout commit-ish.
+    - Merge remote branch in local branch.
     - Emit event "fetched".
   - deploy:update
     - Create and define release path.
