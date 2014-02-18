@@ -32,7 +32,7 @@ module.exports = function (grunt) {
      */
 
     function createReleasePath(cb) {
-      grunt.shipit.releaseDirname = moment().format('YYYYDDMMHHmmss');
+      grunt.shipit.releaseDirname = moment().format('YYYYMMDDHHmmss');
       grunt.shipit.releasesPath = path.join(grunt.shipit.config.deployTo, 'releases');
       grunt.shipit.releasePath = path.join(grunt.shipit.releasesPath, grunt.shipit.releaseDirname);
 
