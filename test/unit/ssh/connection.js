@@ -58,7 +58,7 @@ describe('SSH Connection', function () {
 
       expect(childProcess.exec).to.be.calledWith(
         'ssh user@host "my-command -x"',
-        { cwd: '/root' }
+        { cwd: '/root', maxBuffer: 1000 * 1024 }
       );
     });
 
@@ -67,7 +67,7 @@ describe('SSH Connection', function () {
 
       expect(childProcess.exec).to.be.calledWith(
         'ssh -tt user@host "sudo my-command -x"',
-        { cwd: '/root' }
+        { cwd: '/root', maxBuffer: 1000 * 1024 }
       );
     });
 
