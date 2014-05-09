@@ -1,4 +1,8 @@
-# grunt-shipit [![Build Status](https://travis-ci.org/neoziro/grunt-shipit.png?branch=master)](https://travis-ci.org/neoziro/grunt-shipit)
+# grunt-shipit 
+
+[![Build Status](https://travis-ci.org/neoziro/grunt-shipit.svg?branch=master)](https://travis-ci.org/neoziro/grunt-shipit)
+[![Dependency Status](https://david-dm.org/neoziro/grunt-shipit.svg?theme=shields.io)](https://david-dm.org/neoziro/grunt-shipit)
+[![devDependency Status](https://david-dm.org/neoziro/grunt-shipit/dev-status.svg?theme=shields.io)](https://david-dm.org/neoziro/grunt-shipit#info=devDependencies)
 
 Deploy using grunt task.
 
