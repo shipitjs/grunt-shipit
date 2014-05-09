@@ -61,7 +61,7 @@ describe('Shipit', function () {
 
   describe('#local', function () {
     it('should wrap and log to stdout', function (done) {
-      stdout.captureData();
+      stdout.startCapture();
       var echo = shipit.local('echo "hello"', function (err) {
         if (err) return done(err);
         expect(stdout.capturedData).to.equal('@ hello\n');
