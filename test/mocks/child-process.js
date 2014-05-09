@@ -20,7 +20,7 @@ childProcess.exec = sinon.spy(function (command, options, cb) {
   this.child.stderr = new EventEmitter();
   this.child.stdout = new EventEmitter();
 
-  process.nextTick(cb);
+  process.nextTick(function() { cb(null, 'stdout', 'stderr')});
   return this.child;
 });
 

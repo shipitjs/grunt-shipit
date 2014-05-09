@@ -1,10 +1,14 @@
+var rewire = require('rewire');
 var expect = require('chai').use(require('sinon-chai')).expect;
+var childProcess = require('../../mocks/child-process');
+var logger = require('../../mocks/logger');
 var sinon = require('sinon');
 var Connection = require('../../../lib/ssh/connection');
+var ConnectionMocked = rewire('../../../lib/ssh/connection');
 var ConnectionPool = require('../../../lib/ssh/connection-pool');
 
 describe('SSH Connection pool', function () {
-  var connection1, connection2, pool;
+  var connection1, connection2, connection3, pool, poolMocked;
 
   beforeEach(function () {
     connection1 = new Connection({ remote: 'user@host1' });
@@ -16,6 +20,16 @@ describe('SSH Connection pool', function () {
     sinon.stub(connection2, 'run').yields();
     sinon.stub(connection1, 'copy').yields();
     sinon.stub(connection2, 'copy').yields();
+
+    ConnectionMocked.__set__('childProcess', childProcess);
+    connection3 = new ConnectionMocked({
+        remote: 'user@host3',
+        logger: logger
+    });
+
+    // instanceof connection3 != Connection
+    poolMocked = new ConnectionPool([]);
+    poolMocked.connections = [connection3];
   });
 
   describe('constructor', function () {
@@ -35,6 +49,14 @@ describe('SSH Connection pool', function () {
         done();
       });
     });
+
+    it('should return an array of results', function (done) {
+      poolMocked.run('my-command', function (err, results) {
+        if (err) return done(err);
+        expect(results).to.be.eql(['stdout']);
+        done();
+      });
+    })
   });
 
   describe('#copy', function () {

@@ -62,6 +62,15 @@ describe('SSH Connection', function () {
       );
     });
 
+    it('should handle childProcess.exec callback correctly', function (done) {
+      connection.run('my-command -x', { cwd: '/root' }, function(err, stdout, stderr) {
+        if (err) return done(err);
+        expect(stdout).to.eql("stdout");
+        expect(stderr).to.eql(undefined);
+        done();
+      });
+    });
+
     it('should handle sudo', function (done) {
       connection.run('sudo my-command -x', { cwd: '/root' }, done);
 
