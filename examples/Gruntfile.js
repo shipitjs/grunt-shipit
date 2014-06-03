@@ -44,7 +44,7 @@ module.exports = function (grunt) {
     grunt.task.run(['remote:install']);
   });
 
-  grunt.shipit.on('finished', function () {
+  grunt.shipit.on('published', function () {
     grunt.task.run(['remote:restart']);
   });
 };
