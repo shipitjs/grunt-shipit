@@ -4,7 +4,9 @@
 [![Dependency Status](https://david-dm.org/neoziro/grunt-shipit.svg?theme=shields.io)](https://david-dm.org/neoziro/grunt-shipit)
 [![devDependency Status](https://david-dm.org/neoziro/grunt-shipit/dev-status.svg?theme=shields.io)](https://david-dm.org/neoziro/grunt-shipit#info=devDependencies)
 
-Deploy using grunt task.
+![Shipit logo](https://cloud.githubusercontent.com/assets/266302/3756454/81df9f46-182e-11e4-9da6-b2c7a6b84136.png)
+
+Shipit is a deploy tool written in node.js and based on Grunt. Shipit was built to be a Capistrano alternative for people who want to write tasks in JavaScript and don't have a piece of ruby in their beautiful codebase.
 
 ## Getting Started
 This plugin requires Grunt `~0.4.0`
