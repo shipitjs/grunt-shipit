@@ -62,6 +62,15 @@ describe('SSH Connection', function () {
       );
     });
 
+    it('should escape double quotes', function (done) {
+      connection.run('echo "ok"', {cwd: '/root'}, done);
+
+      expect(childProcess.exec).to.be.calledWith(
+        'ssh user@host "echo \\"ok\\""',
+        { cwd: '/root', maxBuffer: 1000 * 1024 }
+      );
+    });
+
     it('should handle childProcess.exec callback correctly', function (done) {
       connection.run('my-command -x', { cwd: '/root' }, function(err, stdout, stderr) {
         if (err) return done(err);
