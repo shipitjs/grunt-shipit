@@ -57,7 +57,7 @@ describe('SSH Connection', function () {
       connection.run('my-command -x', { cwd: '/root' }, done);
 
       expect(childProcess.exec).to.be.calledWith(
-        'ssh user@host "my-command -x"',
+        'ssh -p 22 user@host "my-command -x"',
         { cwd: '/root', maxBuffer: 1000 * 1024 }
       );
     });
@@ -66,7 +66,7 @@ describe('SSH Connection', function () {
       connection.run('echo "ok"', {cwd: '/root'}, done);
 
       expect(childProcess.exec).to.be.calledWith(
-        'ssh user@host "echo \\"ok\\""',
+        'ssh -p 22 user@host "echo \\"ok\\""',
         { cwd: '/root', maxBuffer: 1000 * 1024 }
       );
     });
@@ -84,7 +84,7 @@ describe('SSH Connection', function () {
       connection.run('sudo my-command -x', { cwd: '/root' }, done);
 
       expect(childProcess.exec).to.be.calledWith(
-        'ssh -tt user@host "sudo my-command -x"',
+        'ssh -tt -p 22 user@host "sudo my-command -x"',
         { cwd: '/root', maxBuffer: 1000 * 1024 }
       );
     });
@@ -94,11 +94,11 @@ describe('SSH Connection', function () {
       connection.run('my-command2 -x', function () {});
 
       expect(childProcess.exec).to.be.calledWith(
-        'ssh user@host "my-command -x"'
+        'ssh -p 22 user@host "my-command -x"'
       );
 
       expect(childProcess.exec).to.be.calledWith(
-        'ssh user@host "my-command2 -x"'
+        'ssh -p 22 user@host "my-command2 -x"'
       );
     });
   });
@@ -116,14 +116,14 @@ describe('SSH Connection', function () {
     it('should call cmd.spawn', function (done) {
       connection.copy('/src/dir', '/dest/dir', done);
 
-      expect(childProcess.exec).to.be.calledWith('rsync -az -e ssh /src/dir user@host:/dest/dir');
+      expect(childProcess.exec).to.be.calledWith('rsync -az -e "ssh -p 22" /src/dir user@host:/dest/dir');
     });
 
     it('should accept "ignores" option', function (done) {
       connection.copy('/src/dir', '/dest/dir', { ignores: ['a', 'b'] }, done);
 
       expect(childProcess.exec).to.be.calledWith('rsync --exclude a --exclude b -az -e ' +
-        'ssh /src/dir user@host:/dest/dir');
+        '"ssh -p 22" /src/dir user@host:/dest/dir');
     });
   });
 });
