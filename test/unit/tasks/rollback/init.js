@@ -83,8 +83,8 @@ describe('rollback:init task', function () {
             ]);
           if(command === 'ls -r1 /remote/deploy/releases')
             return cb(null, [
-              '20141704123137',
-              '20141704123134'
+              '20141704123137\n20141704123134\n',
+              '20141704123137\n20141704123133\n'
             ]);
         });
       });
