@@ -4,6 +4,7 @@
 
 var async = require('async');
 var path = require('path');
+var _ = require('lodash');
 
 /**
  * Update task.
@@ -150,7 +151,7 @@ module.exports = function (grunt) {
 
       function equalValues(values) {
         return values.every(function (value) {
-          return value === values[0];
+            return _.isEqual(value, values[0]);
         });
       }
     }
