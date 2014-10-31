@@ -33,8 +33,7 @@ module.exports = function (grunt) {
 
       grunt.shipit.currentPath = path.join(grunt.shipit.config.deployTo, 'current');
 
-      grunt.shipit.remote('rm -rf ' + grunt.shipit.currentPath + ' && ln -s ' + grunt.shipit.releasePath +
-        ' ' + grunt.shipit.currentPath,
+      grunt.shipit.remote('ln -nfs ' + grunt.shipit.releasePath + ' ' + grunt.shipit.currentPath,
         function (err) {
           if (err) return cb(err);
           grunt.log.oklns('Release published.');
