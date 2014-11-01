@@ -36,8 +36,8 @@ describe('deploy:publish task', function () {
     runTask('deploy:publish', function (err) {
       if (err) return done(err);
       expect(shipit.currentPath).to.equal('/remote/deploy/current');
-      expect(shipit.remote).to.be.calledWith('rm -rf /remote/deploy/current && ' +
-        'ln -s /remote/deploy/releases/20141704123138 /remote/deploy/current');
+      expect(shipit.remote).to.be.calledWith('ln -nfs /remote/deploy/releases/20141704123138 ' +
+      '/remote/deploy/current');
       done();
     });
   });
