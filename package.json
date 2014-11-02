@@ -23,7 +23,6 @@
     "async": "^0.9.0",
     "lodash": "^2.4.1",
     "mkdirp": "^0.5.0",
-    "moment": "^2.6.0",
     "stream-line-wrapper": "^0.1.1"
   },
   "peerDependencies": {
