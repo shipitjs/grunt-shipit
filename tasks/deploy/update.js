@@ -3,7 +3,6 @@
  */
 
 var async = require('async');
-var moment = require('moment');
 var path = require('path');
 
 /**
@@ -32,7 +31,7 @@ module.exports = function (grunt) {
      */
 
     function createReleasePath(cb) {
-      grunt.shipit.releaseDirname = moment().format('YYYYMMDDHHmmss');
+      grunt.shipit.releaseDirname = grunt.template.date('yyyymmddhhMMss');
       grunt.shipit.releasesPath = path.join(grunt.shipit.config.deployTo, 'releases');
       grunt.shipit.releasePath = path.join(grunt.shipit.releasesPath, grunt.shipit.releaseDirname);
 

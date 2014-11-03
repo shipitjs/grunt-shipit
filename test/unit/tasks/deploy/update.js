@@ -5,7 +5,6 @@ var Shipit = require('../../../../lib/shipit');
 var updateFactory = require('../../../../tasks/deploy/update');
 var runTask = require('../../../helpers/run-task');
 var gruntLog = require('../../../helpers/grunt-log');
-var moment = require('moment');
 
 describe('deploy:update task', function () {
   var shipit, clock;
@@ -39,7 +38,7 @@ describe('deploy:update task', function () {
   it('should create release path, and do a remote copy', function (done) {
     runTask('deploy:update', function (err) {
       if (err) return done(err);
-      var dirName = moment().format('YYYYMMDDHHmmss');
+      var dirName = grunt.template.date('yyyymmddhhMMss');
       expect(shipit.releaseDirname).to.equal(dirName);
       expect(shipit.releasesPath).to.equal('/remote/deploy/releases');
       expect(shipit.releasePath).to.equal('/remote/deploy/releases/' + dirName);
