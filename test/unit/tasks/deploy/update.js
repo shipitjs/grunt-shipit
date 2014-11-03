@@ -38,7 +38,7 @@ describe('deploy:update task', function () {
   it('should create release path, and do a remote copy', function (done) {
     runTask('deploy:update', function (err) {
       if (err) return done(err);
-      var dirName = grunt.template.date('YYYYMMDDHHmmss');
+      var dirName = grunt.template.date('yyyymmddhhMMss');
       expect(shipit.releaseDirname).to.equal(dirName);
       expect(shipit.releasesPath).to.equal('/remote/deploy/releases');
       expect(shipit.releasePath).to.equal('/remote/deploy/releases/' + dirName);
