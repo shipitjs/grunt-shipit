@@ -1,6 +1,6 @@
 {
   "name": "grunt-shipit",
-  "version": "0.4.2",
+  "version": "0.4.3",
   "description": "Deployment using grunt.",
   "scripts": {
     "test": "mocha --recursive"
