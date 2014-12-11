@@ -93,6 +93,12 @@ Type: `String` or `Array<String>`
 
 Servers on which the project will be deployed. Pattern must be `user@myserver.com` if user is not specified (`myserver.com`) the default user will be "deploy".
 
+#### key
+
+Type: `String`
+
+Path to SSH key
+
 ### Usage example
 
 ```js
@@ -102,7 +108,8 @@ shipit: {
     deployTo: '/tmp/deploy_to',
     repositoryUrl: 'https://github.com/user/repo.git',
     ignores: ['.git', 'node_modules'],
-    keepReleases: 2
+    keepReleases: 2,
+    key: '/path/to/key'
   },
   staging: {
     servers: 'user@myserver.com'

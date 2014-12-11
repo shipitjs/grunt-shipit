@@ -101,6 +101,18 @@ describe('SSH Connection', function () {
         'ssh -p 22 user@host "my-command2 -x"'
       );
     });
+
+    it('should use key if present', function () {
+      connection = new Connection({
+        remote: 'user@host',
+        logger: logger,
+        key: '/path/to/key'
+      });
+      connection.run('my-command -x', function () {});  
+      expect(childProcess.exec).to.be.calledWith(
+        'ssh -p 22 -i /path/to/key user@host "my-command -x"'
+      );
+    });
   });
 
   describe('#copy', function () {
@@ -125,5 +137,16 @@ describe('SSH Connection', function () {
       expect(childProcess.exec).to.be.calledWith('rsync --exclude a --exclude b -az -e ' +
         '"ssh -p 22" /src/dir user@host:/dest/dir');
     });
+
+    it('should use key if present', function (done) {
+      connection = new Connection({
+        remote: 'user@host',
+        logger: logger,
+        key: '/path/to/key'
+      });
+      connection.copy('/src/dir', '/dest/dir', done);
+      expect(childProcess.exec).to.be.calledWith('rsync -az -e "ssh -p 22 -i /path/to/key" /src/dir user@host:/dest/dir');
+    });
+
   });
 });
