@@ -1,5 +1,7 @@
 # grunt-shipit 
 
+[![Gitter](https://badges.gitter.im/Join Chat.svg)](https://gitter.im/neoziro/grunt-shipit?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
+
 [![Build Status](https://travis-ci.org/neoziro/grunt-shipit.svg?branch=master)](https://travis-ci.org/neoziro/grunt-shipit)
 [![Dependency Status](https://david-dm.org/neoziro/grunt-shipit.svg?theme=shields.io)](https://david-dm.org/neoziro/grunt-shipit)
 [![devDependency Status](https://david-dm.org/neoziro/grunt-shipit/dev-status.svg?theme=shields.io)](https://david-dm.org/neoziro/grunt-shipit#info=devDependencies)
