@@ -11,8 +11,8 @@ describe('SSH Connection pool', function () {
   var connection1, connection2, connection3, pool, poolMocked;
 
   beforeEach(function () {
-    connection1 = new Connection({ remote: 'user@host1' });
-    connection2 = new Connection({ remote: 'user@host2' });
+    connection1 = new Connection({remote: 'user@host1'});
+    connection2 = new Connection({remote: 'user@host2'});
 
     pool = new ConnectionPool([connection1, connection2]);
 
@@ -34,9 +34,9 @@ describe('SSH Connection pool', function () {
 
   describe('constructor', function () {
     it('should be possible to create a new ConnectionPool using shorthand syntax', function () {
-      var pool = new ConnectionPool(['myserver', 'myserver2']);
-      expect(pool.connections[0].remote).to.deep.equal({ user: 'deploy', host: 'myserver' });
-      expect(pool.connections[1].remote).to.deep.equal({ user: 'deploy', host: 'myserver2' });
+      pool = new ConnectionPool(['myserver', 'myserver2']);
+      expect(pool.connections[0].remote).to.deep.equal({user: 'deploy', host: 'myserver'});
+      expect(pool.connections[1].remote).to.deep.equal({user: 'deploy', host: 'myserver2'});
     });
   });
 
@@ -56,7 +56,7 @@ describe('SSH Connection pool', function () {
         expect(results).to.be.eql(['stdout']);
         done();
       });
-    })
+    });
   });
 
   describe('#copy', function () {

@@ -38,17 +38,17 @@ describe('Shipit', function () {
 
   describe('#initSshPool', function () {
     it('should initialize an ssh pool', function () {
-      shipit.config = { servers: ['deploy@my-server'] };
+      shipit.config = {servers: ['deploy@my-server']};
       shipit.initSshPool();
 
       expect(shipit.sshPool).to.be.instanceOf(ConnectionPool);
-      expect(shipit.sshPool.connections[0].remote).to.deep.equal({ user: 'deploy', host: 'my-server' });
+      expect(shipit.sshPool.connections[0].remote).to.deep.equal({user: 'deploy', host: 'my-server'});
     });
   });
 
   describe('#initConfig', function () {
     it('should initialize config', function () {
-      shipit.initConfig({ options: { foo: 'bar' }, stage: { kung: 'foo' } });
+      shipit.initConfig({options: {foo: 'bar'}, stage: {kung: 'foo'}});
 
       expect(shipit.config).to.be.deep.equal({
         branch: 'master',
@@ -76,7 +76,7 @@ describe('Shipit', function () {
 
   describe('#remote', function () {
     beforeEach(function () {
-      shipit.sshPool = { run: sinon.stub() };
+      shipit.sshPool = {run: sinon.stub()};
     });
 
     it('should run command on sshPool', function () {
@@ -88,7 +88,7 @@ describe('Shipit', function () {
 
   describe('#remoteCopy', function () {
     beforeEach(function () {
-      shipit.sshPool = { copy: sinon.stub() };
+      shipit.sshPool = {copy: sinon.stub()};
     });
 
     it('should run command on sshPool', function () {

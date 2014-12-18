@@ -40,15 +40,15 @@ describe('deploy:fetch task', function () {
     runTask('deploy:fetch', function (err) {
       if (err) return done(err);
       expect(mkdirpMock).to.be.calledWith('/tmp/workspace');
-      expect(grunt.shipit.local).to.be.calledWith('git init', { cwd: '/tmp/workspace' });
-      expect(grunt.shipit.local).to.be.calledWith('git remote', { cwd: '/tmp/workspace' });
+      expect(grunt.shipit.local).to.be.calledWith('git init', {cwd: '/tmp/workspace'});
+      expect(grunt.shipit.local).to.be.calledWith('git remote', {cwd: '/tmp/workspace'});
       expect(grunt.shipit.local).to.be.calledWith(
         'git remote add shipit git://website.com/user/repo',
-        { cwd: '/tmp/workspace' }
+        {cwd: '/tmp/workspace'}
       );
-      expect(grunt.shipit.local).to.be.calledWith('git fetch shipit -p', { cwd: '/tmp/workspace' });
-      expect(grunt.shipit.local).to.be.calledWith('git checkout master', { cwd: '/tmp/workspace' });
-      expect(grunt.shipit.local).to.be.calledWith('git branch --list master', { cwd: '/tmp/workspace' });
+      expect(grunt.shipit.local).to.be.calledWith('git fetch shipit -p', {cwd: '/tmp/workspace'});
+      expect(grunt.shipit.local).to.be.calledWith('git checkout master', {cwd: '/tmp/workspace'});
+      expect(grunt.shipit.local).to.be.calledWith('git branch --list master', {cwd: '/tmp/workspace'});
       done();
     });
   });
