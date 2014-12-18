@@ -5,6 +5,7 @@ var childProcess = require('../../mocks/child-process');
 var logger = require('../../mocks/logger');
 var remote = require('../../../lib/ssh/remote');
 var Connection = rewire('../../../lib/ssh/connection');
+var _ = require('lodash');
 
 describe('SSH Connection', function () {
   beforeEach(function () {
@@ -53,20 +54,29 @@ describe('SSH Connection', function () {
       });
     });
 
-    it('should call childProcess.exec', function (done) {
-      connection.run('my-command -x', {cwd: '/root'}, done);
+    it('should call childProcess.exec', function () {
+      connection.run('my-command -x', {cwd: '/root', useDoubleQuote: true}, _.noop);
 
       expect(childProcess.exec).to.be.calledWith(
         'ssh -p 22 user@host "my-command -x"',
-        {cwd: '/root', maxBuffer: 1000 * 1024}
+        {cwd: '/root', maxBuffer: 1000 * 1024, useDoubleQuote: true}
       );
     });
 
-    it('should escape double quotes', function (done) {
-      connection.run('echo "ok"', {cwd: '/root'}, done);
+    it('should escape double quotes', function () {
+      connection.run('echo "ok"', {cwd: '/root', useDoubleQuote: true}, _.noop);
 
       expect(childProcess.exec).to.be.calledWith(
         'ssh -p 22 user@host "echo \\"ok\\""',
+        {cwd: '/root', maxBuffer: 1000 * 1024, useDoubleQuote: true}
+      );
+    });
+
+    it('should escape single quotes', function () {
+      connection.run('echo \'ok\'', {cwd: '/root'}, _.noop);
+
+      expect(childProcess.exec).to.be.calledWith(
+        'ssh -p 22 user@host \'echo \'\\\'\'ok\'\\\'\'\'',
         {cwd: '/root', maxBuffer: 1000 * 1024}
       );
     });
@@ -80,12 +90,12 @@ describe('SSH Connection', function () {
       });
     });
 
-    it('should handle sudo', function (done) {
-      connection.run('sudo my-command -x', {cwd: '/root'}, done);
+    it('should handle sudo', function () {
+      connection.run('sudo my-command -x', {cwd: '/root', useDoubleQuote: true}, _.noop);
 
       expect(childProcess.exec).to.be.calledWith(
         'ssh -tt -p 22 user@host "sudo my-command -x"',
-        {cwd: '/root', maxBuffer: 1000 * 1024}
+        {cwd: '/root', maxBuffer: 1000 * 1024, useDoubleQuote: true}
       );
     });
 
@@ -94,11 +104,11 @@ describe('SSH Connection', function () {
       connection.run('my-command2 -x', function () {});
 
       expect(childProcess.exec).to.be.calledWith(
-        'ssh -p 22 user@host "my-command -x"'
+        'ssh -p 22 user@host \'my-command -x\''
       );
 
       expect(childProcess.exec).to.be.calledWith(
-        'ssh -p 22 user@host "my-command2 -x"'
+        'ssh -p 22 user@host \'my-command2 -x\''
       );
     });
 
@@ -110,7 +120,7 @@ describe('SSH Connection', function () {
       });
       connection.run('my-command -x', function () {});
       expect(childProcess.exec).to.be.calledWith(
-        'ssh -p 22 -i /path/to/key user@host "my-command -x"'
+        'ssh -p 22 -i /path/to/key user@host \'my-command -x\''
       );
     });
   });
