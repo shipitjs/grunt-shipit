@@ -3,7 +3,7 @@
  */
 
 var async = require('async');
-var path = require('path');
+var path = require('path2/posix');
 
 /**
  * Update task.
