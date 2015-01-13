@@ -52,7 +52,7 @@ module.exports = function (grunt) {
 
     function initRepository(cb) {
       grunt.log.writeln('Initialize local repository in "%s"', grunt.shipit.config.workspace);
-      grunt.shipit.local('git init', { cwd: grunt.shipit.config.workspace }, function (err) {
+      grunt.shipit.local('git init', {cwd: grunt.shipit.config.workspace}, function (err) {
         if (err) return cb(err);
         grunt.log.oklns('Repository initialized.');
         cb();
@@ -69,7 +69,7 @@ module.exports = function (grunt) {
       grunt.log.writeln('List local remotes.');
 
       // List remotes.
-      grunt.shipit.local('git remote', { cwd: grunt.shipit.config.workspace }, function (err, stdout) {
+      grunt.shipit.local('git remote', {cwd: grunt.shipit.config.workspace}, function (err, stdout) {
         if (err) return cb(err);
         var remotes = stdout ? stdout.split(/\s/) : [];
         var method = remotes.indexOf('shipit') !== -1 ? 'set-url' : 'add';
@@ -80,7 +80,7 @@ module.exports = function (grunt) {
         // Update remote.
         grunt.shipit.local(
           'git remote ' + method + ' shipit ' + grunt.shipit.config.repositoryUrl,
-          { cwd: grunt.shipit.config.workspace },
+          {cwd: grunt.shipit.config.workspace},
           function (err) {
             if (err) return cb(err);
             grunt.log.oklns('Remote updated.');
@@ -100,7 +100,7 @@ module.exports = function (grunt) {
       grunt.log.writeln('Fetching repository "%s"', grunt.shipit.config.repositoryUrl);
       grunt.shipit.local(
         'git fetch shipit -p',
-        { cwd: grunt.shipit.config.workspace },
+        {cwd: grunt.shipit.config.workspace},
         function (err) {
           if (err) return cb(err);
           grunt.log.oklns('Repository fetched.');
@@ -119,7 +119,7 @@ module.exports = function (grunt) {
       grunt.log.writeln('Checking out commit-ish "%s"', grunt.shipit.config.branch);
       grunt.shipit.local(
         'git checkout ' + grunt.shipit.config.branch,
-        { cwd: grunt.shipit.config.workspace },
+        {cwd: grunt.shipit.config.workspace},
         function (err) {
           if (err) return cb(err);
           grunt.log.oklns('Checked out.');
@@ -140,11 +140,13 @@ module.exports = function (grunt) {
       // Test if commit-ish is a branch.
       grunt.shipit.local(
         'git branch --list ' + grunt.shipit.config.branch,
-        { cwd: grunt.shipit.config.workspace },
+        {cwd: grunt.shipit.config.workspace},
         function (err, stdout) {
           if (err) return cb(err);
-          var isBranch = !! stdout;
-          if (! isBranch) {
+
+          var isBranch = !!stdout;
+
+          if (!isBranch) {
             grunt.log.oklns('No branch, no merge.');
             return cb();
           }
@@ -154,7 +156,7 @@ module.exports = function (grunt) {
           // Merge branch.
           grunt.shipit.local(
             'git merge shipit/' + grunt.shipit.config.branch,
-            { cwd: grunt.shipit.config.workspace },
+            {cwd: grunt.shipit.config.workspace},
             function (err) {
               if (err) return cb(err);
               grunt.log.oklns('Branch merged.');

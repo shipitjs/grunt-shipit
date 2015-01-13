@@ -3,7 +3,7 @@
  */
 
 var async = require('async');
-var path = require('path');
+var path = require('path2/posix');
 
 /**
  * Update task.
@@ -31,7 +31,7 @@ module.exports = function (grunt) {
      */
 
     function createReleasePath(cb) {
-      grunt.shipit.releaseDirname = grunt.template.date('yyyymmddHHMMss');
+      grunt.shipit.releaseDirname = grunt.template.date('UTC:yyyymmddHHMMss');
       grunt.shipit.releasesPath = path.join(grunt.shipit.config.deployTo, 'releases');
       grunt.shipit.releasePath = path.join(grunt.shipit.releasesPath, grunt.shipit.releaseDirname);
 

@@ -81,7 +81,7 @@ describe('rollback:init task', function () {
             return cb(null, [
               '/remote/deploy/releases/20141704123137'
             ]);
-          if(command === 'ls -r1 /remote/deploy/releases')
+          if (command === 'ls -r1 /remote/deploy/releases')
             return cb(null, [
               '20141704123137\n20141704123134\n',
               '20141704123137\n20141704123133\n'
@@ -108,7 +108,7 @@ describe('rollback:init task', function () {
             return cb(null, [
               '/remote/deploy/releases/20141704123137'
             ]);
-          if(command === 'ls -r1 /remote/deploy/releases')
+          if (command === 'ls -r1 /remote/deploy/releases')
             return cb(null, []);
         });
       });
@@ -133,7 +133,7 @@ describe('rollback:init task', function () {
           return cb(null, [
             '/remote/deploy/releases/20141704123137'
           ]);
-        if(command === 'ls -r1 /remote/deploy/releases')
+        if (command === 'ls -r1 /remote/deploy/releases')
           return cb(null, ['20141704123137']);
       });
     });
@@ -157,7 +157,7 @@ describe('rollback:init task', function () {
           return cb(null, [
             '/remote/deploy/releases/20141704123137\n'
           ]);
-        if(command === 'ls -r1 /remote/deploy/releases')
+        if (command === 'ls -r1 /remote/deploy/releases')
           return cb(null, ['20141704123137\n20141704123136\n']);
       });
     });

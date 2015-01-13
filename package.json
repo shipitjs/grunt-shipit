@@ -1,6 +1,6 @@
 {
   "name": "grunt-shipit",
-  "version": "0.4.3",
+  "version": "0.5.0",
   "description": "Deployment using grunt.",
   "scripts": {
     "test": "mocha --recursive"
@@ -23,6 +23,7 @@
     "async": "^0.9.0",
     "lodash": "^2.4.1",
     "mkdirp": "^0.5.0",
+    "path2": "^0.1.0",
     "stream-line-wrapper": "^0.1.1"
   },
   "peerDependencies": {

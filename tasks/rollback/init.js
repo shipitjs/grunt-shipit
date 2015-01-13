@@ -3,7 +3,7 @@
  */
 
 var async = require('async');
-var path = require('path');
+var path = require('path2/posix');
 var _ = require('lodash');
 
 /**
@@ -39,7 +39,7 @@ module.exports = function (grunt) {
       getCurrentReleaseDirname(function (err, currentRelease) {
         if (err) return cb(err);
 
-        if (! currentRelease)
+        if (!currentRelease)
           return cb(new Error('Cannot find current release dirname.'));
 
         grunt.log.writeln('Current release dirname : %s.', currentRelease);
@@ -49,7 +49,7 @@ module.exports = function (grunt) {
         getReleases(function (err, releases) {
           if (err) return cb(err);
 
-          if (! releases)
+          if (!releases)
             return cb(new Error('Cannot read releases.'));
 
           grunt.log.writeln('Dist releases : %j.', releases);
@@ -61,7 +61,7 @@ module.exports = function (grunt) {
 
           grunt.log.writeln('Will rollback to %s.', grunt.shipit.releaseDirname);
 
-          if (! grunt.shipit.releaseDirname)
+          if (!grunt.shipit.releaseDirname)
             return cb(new Error('Cannot rollback, release not found.'));
 
           grunt.shipit.releasePath = path.join(grunt.shipit.releasesPath, grunt.shipit.releaseDirname);
@@ -82,7 +82,7 @@ module.exports = function (grunt) {
 
           var releaseDirnames = targets.map(computeReleaseDirname);
 
-          if (! equalValues(releaseDirnames))
+          if (!equalValues(releaseDirnames))
             return cb(new Error('Remote server are not synced.'));
 
           cb(null, releaseDirnames[0]);
@@ -97,7 +97,7 @@ module.exports = function (grunt) {
        */
 
       function computeReleaseDirname(target) {
-        if (! target) return null;
+        if (!target) return null;
 
         // Trim last breakline.
         target = target.replace(/\n$/, '');
@@ -118,7 +118,7 @@ module.exports = function (grunt) {
 
           var releases = dirs.map(computeReleases);
 
-          if (! equalValues(releases))
+          if (!equalValues(releases))
             return cb(new Error('Remote server are not synced.'));
 
           cb(null, releases[0]);
@@ -133,7 +133,7 @@ module.exports = function (grunt) {
        */
 
       function computeReleases(dirs) {
-        if (! dirs) return null;
+        if (!dirs) return null;
 
         // Trim last breakline.
         dirs = dirs.replace(/\n$/, '');
