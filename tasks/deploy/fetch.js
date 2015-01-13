@@ -97,9 +97,13 @@ module.exports = function (grunt) {
      */
 
     function fetch(cb) {
+      var fetchCommand = 'git fetch' + 
+        (grunt.shipit.config.shallowClone ? ' --depth=1 ' : ' ') + 
+        'shipit -p';
+      
       grunt.log.writeln('Fetching repository "%s"', grunt.shipit.config.repositoryUrl);
       grunt.shipit.local(
-        'git fetch shipit -p',
+        fetchCommand,
         {cwd: grunt.shipit.config.workspace},
         function (err) {
           if (err) return cb(err);
