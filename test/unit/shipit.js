@@ -54,7 +54,8 @@ describe('Shipit', function () {
         branch: 'master',
         keepReleases: 5,
         foo: 'bar',
-        kung: 'foo'
+        kung: 'foo',
+        shallowClone: false
       });
     });
   });
