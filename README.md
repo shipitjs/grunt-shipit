@@ -101,6 +101,12 @@ Type: `String`
 
 Path to SSH key
 
+#### shallowClone
+
+Type: `Boolean`
+
+Perform a shallow clone. Default: `false`.
+
 ### Usage example
 
 ```js
@@ -111,7 +117,8 @@ shipit: {
     repositoryUrl: 'https://github.com/user/repo.git',
     ignores: ['.git', 'node_modules'],
     keepReleases: 2,
-    key: '/path/to/key'
+    key: '/path/to/key',
+    shallowClone: true
   },
   staging: {
     servers: 'user@myserver.com'
