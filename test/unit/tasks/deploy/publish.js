@@ -23,6 +23,7 @@ describe('deploy:publish task', function () {
     });
 
     shipit.releasePath = '/remote/deploy/releases/20141704123138';
+    shipit.releaseDirname = '20141704123138';
 
     sinon.stub(shipit, 'remote').yields();
   });
@@ -36,8 +37,7 @@ describe('deploy:publish task', function () {
     runTask('deploy:publish', function (err) {
       if (err) return done(err);
       expect(shipit.currentPath).to.equal('/remote/deploy/current');
-      expect(shipit.remote).to.be.calledWith('ln -nfs /remote/deploy/releases/20141704123138 ' +
-      '/remote/deploy/current');
+      expect(shipit.remote).to.be.calledWith('cd /remote/deploy && ln -nfs releases/20141704123138 current');
       done();
     });
   });
