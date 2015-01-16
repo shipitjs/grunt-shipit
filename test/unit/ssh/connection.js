@@ -159,7 +159,7 @@ describe('SSH Connection', function () {
     it('should accept "ignores" option', function (done) {
       connection.copy('/src/dir', '/dest/dir', {ignores: ['a', 'b']}, done);
 
-      expect(childProcess.exec).to.be.calledWith('rsync --exclude a --exclude b -az -e ' +
+      expect(childProcess.exec).to.be.calledWith('rsync --exclude "a" --exclude "b" -az -e ' +
         '"ssh " /src/dir user@host:/dest/dir');
     });
 
