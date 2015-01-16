@@ -66,6 +66,7 @@ describe('deploy:fetch task', function () {
 
     runTask('deploy:fetch', function (err) {
       if (err) return done(err);
+      expect(grunt.shipit.local).to.be.calledWith('rm -rf /tmp/workspace');
       expect(mkdirpMock).to.be.calledWith('/tmp/workspace');
       expect(grunt.shipit.local).to.be.calledWith('git init', {cwd: '/tmp/workspace'});
       expect(grunt.shipit.local).to.be.calledWith('git remote', {cwd: '/tmp/workspace'});

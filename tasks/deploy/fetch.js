@@ -36,12 +36,21 @@ module.exports = function (grunt) {
      */
 
     function createWorkspace(cb) {
-      grunt.log.writeln('Create workspace "%s"', grunt.shipit.config.workspace);
-      mkdirp(grunt.shipit.config.workspace, function (err) {
-        if (err) return cb(err);
-        grunt.log.oklns('Workspace created.');
-        cb();
-      });
+      function createWorkspace() {
+        grunt.log.writeln('Create workspace "%s"', grunt.shipit.config.workspace);
+        mkdirp(grunt.shipit.config.workspace, function (err) {
+          if (err) return cb(err);
+          grunt.log.oklns('Workspace created.');
+          cb();
+        });
+      }
+
+      if (grunt.shipit.config.shallowClone) {
+        grunt.log.writeln('Deleting existing workspace "%s"', grunt.shipit.config.workspace);
+        grunt.shipit.local('rm -rf ' + grunt.shipit.config.workspace, createWorkspace);
+      } else {
+        createWorkspace();
+      }
     }
 
     /**
