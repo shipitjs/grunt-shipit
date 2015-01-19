@@ -32,8 +32,9 @@ module.exports = function (grunt) {
       grunt.log.writeln('Publishing release "%s"', grunt.shipit.releasePath);
 
       grunt.shipit.currentPath = path.join(grunt.shipit.config.deployTo, 'current');
+      var relativeReleasePath = path.join('releases', grunt.shipit.releaseDirname);
 
-      grunt.shipit.remote('ln -nfs ' + grunt.shipit.releasePath + ' ' + grunt.shipit.currentPath,
+      grunt.shipit.remote('cd ' + grunt.shipit.config.deployTo + ' && ln -nfs ' + relativeReleasePath + ' current',
         function (err) {
           if (err) return cb(err);
           grunt.log.oklns('Release published.');
