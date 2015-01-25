@@ -1,41 +1,32 @@
 {
   "name": "grunt-shipit",
   "version": "0.5.3",
-  "description": "Deployment using grunt.",
+  "description": "Grunt plugin for Shipit automation and deployment tool.",
   "scripts": {
-    "test": "mocha --recursive"
+    "test": "grunt test"
   },
   "repository": {
     "type": "git",
-    "url": "git://github.com/neoziro/grunt-shipit.git"
+    "url": "git://github.com/shipitjs/grunt-shipit.git"
   },
   "keywords": [
     "gruntplugin",
     "deploy",
-    "capistrano"
+    "capistrano",
+    "shipit"
   ],
   "author": "Greg Bergé <berge.greg@gmail.com>",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/neoziro/grunt-shipit/issues"
+    "url": "https://github.com/shipitjs/grunt-shipit/issues"
   },
   "dependencies": {
-    "async": "^0.9.0",
-    "lodash": "^2.4.1",
-    "mkdirp": "^0.5.0",
-    "path2": "^0.1.0",
-    "stream-line-wrapper": "^0.1.1"
+    "shipit-cli": "^1.0.1"
   },
   "peerDependencies": {
     "grunt": "^0.4.4"
   },
   "devDependencies": {
-    "chai": "^1.9.1",
-    "grunt": "^0.4.4",
-    "mocha": "^1.18.2",
-    "mock-utf8-stream": "^0.1.1",
-    "rewire": "^2.0.0",
-    "sinon": "^1.9.1",
-    "sinon-chai": "^2.5.0"
+    "grunt": "^0.4.4"
   }
 }

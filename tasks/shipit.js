@@ -1,14 +1,6 @@
-/**
- * Module dependencies.
- */
+var Shipit = require('shipit-cli');
 
-var path = require('path');
-var Shipit = require('../lib/shipit');
-
-/**
- * Expose task.
- */
-
+// Expose task.
 module.exports = shipitTask;
 
 /**
@@ -21,13 +13,15 @@ function shipitTask(grunt) {
   // Init shipit
   grunt.shipit = new Shipit();
 
-  grunt.loadTasks(path.join(__dirname, 'deploy'));
-  grunt.loadTasks(path.join(__dirname, 'rollback'));
-
-  grunt.registerTask('shipit', 'Shipit Task', function (stage) {
+  grunt.registerTask('shipit', 'Shipit Task', function (env) {
     var config = grunt.config.get('shipit');
 
-    grunt.shipit.stage = stage;
+    grunt.shipit.environment = env;
+
+    // Support legacy options.
+    if (!config.default && config.options)
+      config.default = config.options;
+
     grunt.shipit
       .initConfig(config)
       .initialize();
