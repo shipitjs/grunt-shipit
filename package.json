@@ -1,6 +1,6 @@
 {
   "name": "grunt-shipit",
-  "version": "0.5.3",
+  "version": "1.0.0",
   "description": "Grunt plugin for Shipit automation and deployment tool.",
   "scripts": {
     "test": "grunt test"
