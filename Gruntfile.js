@@ -1,13 +1,7 @@
 module.exports = function (grunt) {
   grunt.initConfig({
     shipit: {
-      options: {
-        workspace: '/tmp/deploy/ya-sqs',
-        deployTo: '/root/shipit-deploy',
-        repositoryUrl: 'git@github.com:neoziro/ya-sqs.git',
-        ignores: ['.*'],
-        keepReleases: 2
-      },
+      options: {},
       staging: {
         servers: 'root@hipush.net'
       }
