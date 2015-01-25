@@ -138,6 +138,18 @@ describe('SSH Connection', function () {
         'ssh -p 12345 -i /path/to/key user@host "my-command -x"'
       );
     });
+    
+    it('should use StrictHostKeyChecking if present', function () {
+      connection = new Connection({
+        remote: 'user@host',
+        logger: logger,
+        strictHost: 'no' 
+      });
+      connection.run('my-command -x', function () {});
+      expect(childProcess.exec).to.be.calledWith(
+        'ssh -o StrictHostKeyChecking=no user@host "my-command -x"'
+      );
+    });
   });
 
   describe('#copy', function () {
@@ -193,6 +205,17 @@ describe('SSH Connection', function () {
       connection.copy('/src/dir', '/dest/dir', done);
       expect(childProcess.exec).to.be.calledWith('rsync -az -e "ssh -p 12345 -i /path/to/key" /src/dir user@host:/dest/dir');
     });
+    
+    it('should use StrictHostKeyChecking if present', function (done) {
+      connection = new Connection({
+        remote: 'user@host',
+        logger: logger,
+        strictHost: 'yes' 
+      });
+      connection.copy('/src/dir', '/dest/dir', done);
+      expect(childProcess.exec).to.be.calledWith('rsync -az -e "ssh -o StrictHostKeyChecking=yes" /src/dir user@host:/dest/dir');
+    });
+
 
   });
 });
