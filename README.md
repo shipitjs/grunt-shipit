@@ -66,13 +66,13 @@ For more documentation about Shipit deploy task, please refer to [Shipit deploy 
 
 ## Upgrading from v0.5.x
 
-### Promises and methods result
+### Methods
 
 Now all methods returns promises, you can still use callback but the result has changed.
 
 Before:
 
-```
+```js
 shipit.remote('echo "hello"', function (err, stdout, stderr) {
   console.log(stdout, stderr);
 });
@@ -80,7 +80,7 @@ shipit.remote('echo "hello"', function (err, stdout, stderr) {
 
 Now:
 
-```
+```js
 shipit.remote('echo "hello"', function (err, res) {
   console.log(res.stdout, res.stderr);
 });
