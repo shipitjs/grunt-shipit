@@ -3,7 +3,7 @@ module.exports = function (grunt) {
     shipit: {
       options: {},
       staging: {
-        servers: 'root@hipush.net'
+        servers: 'myserver.com'
       }
     }
   });
