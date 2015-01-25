@@ -107,6 +107,13 @@ Type: `Boolean`
 
 Perform a shallow clone. Default: `false`.
 
+#### strictHost
+
+Type: `String`
+
+Sets the option to enable or disable StrictHostKeyChecking for the SSH connection.
+
+
 ### Usage example
 
 ```js
@@ -118,7 +125,8 @@ shipit: {
     ignores: ['.git', 'node_modules'],
     keepReleases: 2,
     key: '/path/to/key',
-    shallowClone: true
+    shallowClone: true,
+    strictHost: 'no'
   },
   staging: {
     servers: 'user@myserver.com'
