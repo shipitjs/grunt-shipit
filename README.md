@@ -45,7 +45,7 @@ module.exports = function (grunt) {
         shallowClone: true
       },
       staging: {
-        servers: 'user@myserver.com'
+        servers: ['user@myserver.com', 'user2@myserver2.com]
       }
     }
   });
