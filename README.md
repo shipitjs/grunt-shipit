@@ -104,6 +104,10 @@ npm install shipit-deploy
 grunt.loadNpmTasks('shipit-deploy');
 ```
 
+### API change
+The exposed property `grunt.shipit.stage` is now `grunt.shipit.environment`.
+
+
 ## License
 
 MIT
