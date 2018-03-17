@@ -1,6 +1,8 @@
-# grunt-shipit 
+# ⚠️⚠️⚠️⚠️⚠️⚠️⚠️⚠️⚠️⚠️⚠️⚠️⚠️⚠️⚠️⚠️⚠️⚠️⚠️⚠️⚠️⚠️⚠️⚠️⚠️⚠️⚠️⚠️⚠️⚠️⚠️⚠️⚠️⚠️⚠️
+# This repository is no longer maintained, please use [Shipit](https://github.com/shipitjs/shipit) instead
+# ⚠️⚠️⚠️⚠️⚠️⚠️⚠️⚠️⚠️⚠️⚠️⚠️⚠️⚠️⚠️⚠️⚠️⚠️⚠️⚠️⚠️⚠️⚠️⚠️⚠️⚠️⚠️⚠️⚠️⚠️⚠️⚠️⚠️⚠️⚠️
 
-[![Gitter](https://badges.gitter.im/Join Chat.svg)](https://gitter.im/shipitjs?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
+# grunt-shipit 
 
 [![Build Status](https://travis-ci.org/shipitjs/grunt-shipit.svg?branch=master)](https://travis-ci.org/shipitjs/grunt-shipit)
 [![Dependency Status](https://david-dm.org/shipitjs/grunt-shipit.svg?theme=shields.io)](https://david-dm.org/shipitjs/grunt-shipit)
